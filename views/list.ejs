@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table, td { border: 2px solid gray; }
+        table { border-collapse: collapse; width: 100%; }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>제목</th>
+                <th>작성일</th>
+                <th>삭제</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let i=0; i < data.length; i++){ %>
+                <tr>
+                    <td><%= data[i].title %></td>
+                    <td><%= data[i].date %></td>
+                    <td><button>삭제</button></td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+
+</body>
+</html>
