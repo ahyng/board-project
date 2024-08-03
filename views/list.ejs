@@ -21,7 +21,7 @@
         <tbody>
             <% for (let i=0; i < data.length; i++){ %>
                 <tr>
-                    <td><%= data[i].title %></td>
+                    <td><a href="/content/<%= data[i]._id %>"><%= data[i].title %></a></td>
                     <td><%= data[i].date %></td>
                     <td><button class="delete" data-id="<%= data[i]._id %>">삭제</button></td>
                 </tr>

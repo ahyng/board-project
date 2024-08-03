@@ -50,7 +50,7 @@ app.get('/list', (req, res) => {
     console.log(result);
     res.render('list.ejs', {data : result});
   })
-  
+
 })
 
 app.get('/enter', (req, res) => {
@@ -95,8 +95,16 @@ app.post('/delete', (req, res) => {
   })
 })
 
-app.get('/content', (req, res) => {
-  res.render('content.ejs');
+app.get('/content/:id', (req, res) => {
+  console.log(req.params.id);
+  req.params.id = new ObjectId(req.params.id);
+  mydb
+    .collection('post')
+    .findOne({_id : req.params.id})
+    .then((result) => {
+      console.log(result);
+      res.render('content.ejs', {data : result});
+    });
 })
 
 app.get('/', (req, res) => {
