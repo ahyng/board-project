@@ -40,10 +40,6 @@ app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
   })
 
-app.get('/book', (req, res) => {
-    res.sendFile(__dirname + '/book.html');
-})
-
 app.get('/list', (req, res) => {
   // conn.query("select * from post", function(err, rows, fields){
   //   if (err) throw err;
@@ -97,6 +93,10 @@ app.post('/delete', (req, res) => {
     console.log(err);
     res.status(500).send();
   })
+})
+
+app.get('/content', (req, res) => {
+  res.render('content.ejs');
 })
 
 app.get('/', (req, res) => {
