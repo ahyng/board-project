@@ -23,11 +23,28 @@
                 <tr>
                     <td><%= data[i].title %></td>
                     <td><%= data[i].date %></td>
-                    <td><button>삭제</button></td>
+                    <td><button class="delete" data-id="<%= data[i]._id %>">삭제</button></td>
                 </tr>
             <% } %>
         </tbody>
     </table>
-
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
+        $('.delete').click((e) => {
+            let sid = e.target.dataset.id;
+            let item = $(e.target);
+            $.ajax({
+            type: 'post',
+            url: '/delete',
+            data: {_id : sid}
+        }).done((result) => {
+            item.closest('tr').remove();
+        }).fail((xhr, textStatus, errorThrown) => {
+            console.log('게시물 삭제 실패');
+            console.log(xhr, textStatus, errorThrown);
+        });
+        });
+        
+    </script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 const config = require("./config/key.js");
 const mongoclient = require('mongodb').MongoClient;
+const { ObjectId } = require('mongodb')
 const url = config.mongoURI
 let mydb;
 mongoclient.connect(url)
@@ -82,6 +83,20 @@ app.post('/save', (req, res) => {
   // })
   
   // res.send('데이터 추가 성공');
+})
+
+app.post('/delete', (req, res) => {
+  console.log(req.body._id);
+  req.body._id = new ObjectId(req.body._id);
+  mydb.collection('post').deleteOne(req.body)
+  .then(result => {
+    console.log('삭제 완료');
+    res.status(200).send();
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).send();
+  })
 })
 
 app.get('/', (req, res) => {
