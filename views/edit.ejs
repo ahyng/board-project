@@ -54,25 +54,23 @@
         </div>
       </nav>
 
-    <form action="/save" method="post">
+    <form action="/edit" method="post">
         <div class="mb-3">
             <label class="form-label" for="inputTitle">제목</label>
-            <input required type="text" class="input form-control" id="inputTitle" name="title">
+            <input type="text" value="<%= data._id %>" name="id" style="display: none;">
+            <input required type="text" value="<%= data.title %>" class="input form-control" id="inputTitle" name="title">
         </div>
         <p></p>
         <div class="mb-3">
             <label class="form-label">내용</label>
-            <textarea required name="content" class="form-control" rows="10"></textarea>
+            <textarea required name="content" class="form-control" rows="10"><%= data.content %></textarea>
         </div>
         <p></p>
         <div class="mb-3">
             <label class="form-label">작성일</label>
-            <input readonly type="date" class="form-control" name="someDate" id="inputDate">
+            <input type="date" readonly value="<%= data.date %>" class="form-control" name="savedDate">
         </div>
         <button type="submit" class="btn btn-warning">저장</button>
     </form>
-    <script>
-        document.getElementById('inputDate').value = new Date().toLocaleDateString('en-CA');
-    </script>
 </body>
 </html>
