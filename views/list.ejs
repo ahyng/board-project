@@ -24,17 +24,17 @@
     <table class="table w-75 p-3">
         <thead>
             <tr>
-                <th>제목</th>
-                <th>작성일</th>
-                <th>삭제</th>
+                <th style="width: 50%;">제목</th>
+                <th style="width: 35%;">작성일</th>
+                <th style="width: 15%;">삭제</th>
             </tr>
         </thead>
         <tbody>
             <% for (let i=0; i < data.length; i++){ %>
                 <tr>
-                    <td><a href="/content/<%= data[i]._id %>"><%= data[i].title %></a></td>
-                    <td><%= data[i].date %></td>
-                    <td><button class="delete btn btn-warning" data-id="<%= data[i]._id %>">삭제</button></td>
+                    <td style="width: 50%;"><a href="/content/<%= data[i]._id %>"><%= data[i].title %></a></td>
+                    <td style="width: 35%;"><%= data[i].date %></td>
+                    <td style="width: 15%;"><button class="delete btn btn-warning" data-id="<%= data[i]._id %>">삭제</button></td>
                 </tr>
             <% } %>
         </tbody>
