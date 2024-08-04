@@ -58,9 +58,6 @@ app.get('/enter', (req, res) => {
 })
 
 app.post('/save', (req, res) => {
-  console.log(req.body.title);
-  console.log(req.body.content);
-  console.log(req.body.someDate);
 
   mydb.collection('post').insertOne(
     {title : req.body.title, content: req.body.content, date: req.body.someDate}
@@ -69,8 +66,8 @@ app.post('/save', (req, res) => {
     console.log('데이터 추가 성공');
     // res.redirect('/list');
   })
-  res.send('데이터 추가 성공');
-
+  // res.send('데이터 추가 성공');
+  res.redirect('/list');
   //mysql
   // let sql = "insert into post (title, content, created) values(?, ?, NOW())";
   // let params = [req.body.title, req.body.content];
