@@ -67,6 +67,7 @@ app.post('/save', (req, res) => {
   ).then(result => {
     console.log(result);
     console.log('데이터 추가 성공');
+    // res.redirect('/list');
   })
   res.send('데이터 추가 성공');
 
@@ -105,6 +106,32 @@ app.get('/content/:id', (req, res) => {
       console.log(result);
       res.render('content.ejs', {data : result});
     });
+})
+
+app.get('/edit/:id', (req, res) => {
+  req.params.id = new ObjectId(req.params.id);
+  mydb
+    .collection('post')
+    .findOne({_id: req.params.id})
+    .then((result) => {
+      console.log(result);
+      res.render('edit.ejs', {data: result});
+    })
+  
+})
+
+app.post('/edit', (req, res) => {
+  console.log(req.body);
+  req.body.id = new ObjectId(req.body.id);
+  mydb
+    .collection('post')
+    .updateOne({_id: req.body.id}, {$set: {title : req.body.title, content: req.body.content, date: req.body.savedDate}})
+    .then((result) => {
+      console.log('수정완료');
+      res.redirect('/list');
+    }).catch((err) => {
+      console.log(err);
+    })
 })
 
 app.get('/', (req, res) => {
