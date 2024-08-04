@@ -48,12 +48,8 @@
     </style>
 </head>
 <body>
-    <nav class="navbar bg-body-tertiary" data-bs-theme="blue">
-        <div class="container-fluid">
-          <span class="navbar-brand mb-0 h1">글쓰기</span>
-        </div>
-      </nav>
-
+    <%- include('menu.html') %>
+    
     <form action="/save" method="post">
         <div class="mb-3">
             <label class="form-label" for="inputTitle">제목</label>
