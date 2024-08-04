@@ -27,8 +27,16 @@
             height: 60vh;
         }
 
+        #cardFooter {
+            padding: 15px;
+        }
+
         #savedDate {
-            padding: 10px;
+            padding-bottom: 10px;
+        }
+
+        #editBtn {
+            font-size: 20px;
         }
 
     </style>
@@ -42,7 +50,10 @@
     <div class="card " id="contentBox">
         <h2 class="card-header"><%= data.title %></h2>
         <div class="card-body" id="content"><%= data.content %></div>
-        <div class="card-footer" id="savedDate">작성일: <%= data.date %></div>
+        <div class="card-footer" id="cardFooter">
+            <div id="savedDate">작성일: <%= data.date %></div>
+            <button id="editBtn" type="button" class="btn btn-warning" onclick="location.href='/edit/<%= data._id %>'" >수정하기</button>
+        </div>
     </div>
 </body>
 </html>
