@@ -25,6 +25,9 @@
         #content {
             padding: 15px;
             height: 60vh;
+            white-space:pre;
+            max-height: 60vh;
+            overflow-y: auto;
         }
 
         #cardFooter {
@@ -42,11 +45,8 @@
     </style>
 </head>
 <body>
-    <nav class="navbar bg-body-tertiary" data-bs-theme="blue">
-        <div class="container-fluid">
-          <span class="navbar-brand mb-0 h1">상세 내용</span>
-        </div>
-    </nav>
+    <%- include('menu.html') %>
+
     <div class="card " id="contentBox">
         <h2 class="card-header"><%= data.title %></h2>
         <div class="card-body" id="content"><%= data.content %></div>

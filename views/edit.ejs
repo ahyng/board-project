@@ -32,6 +32,7 @@
         textarea[name="content"] {
             font-size: 25px;
             border-radius: 10px;
+            white-space:pre;
         }
 
         input[type='date'] {
@@ -48,11 +49,7 @@
     </style>
 </head>
 <body>
-    <nav class="navbar bg-body-tertiary" data-bs-theme="blue">
-        <div class="container-fluid">
-          <span class="navbar-brand mb-0 h1">글쓰기</span>
-        </div>
-      </nav>
+    <%- include('menu.html') %>
 
     <form action="/edit" method="post">
         <div class="mb-3">
@@ -63,7 +60,7 @@
         <p></p>
         <div class="mb-3">
             <label class="form-label">내용</label>
-            <textarea required name="content" class="form-control" rows="10"><%= data.content %></textarea>
+            <textarea required name="content" cols="20" wrap="hard" class="form-control" rows="10"><%= data.content %></textarea>
         </div>
         <p></p>
         <div class="mb-3">

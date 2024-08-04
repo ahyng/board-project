@@ -32,6 +32,7 @@
         textarea[name="content"] {
             font-size: 25px;
             border-radius: 10px;
+            white-space:pre;
         }
 
         input[type='date'] {
@@ -48,11 +49,7 @@
     </style>
 </head>
 <body>
-    <nav class="navbar bg-body-tertiary" data-bs-theme="blue">
-        <div class="container-fluid">
-          <span class="navbar-brand mb-0 h1">글쓰기</span>
-        </div>
-      </nav>
+    <%- include('menu.html') %>
 
     <form action="/save" method="post">
         <div class="mb-3">
@@ -62,7 +59,7 @@
         <p></p>
         <div class="mb-3">
             <label class="form-label">내용</label>
-            <textarea required name="content" class="form-control" rows="10"></textarea>
+            <textarea required name="content" cols="20" wrap="hard" class="form-control" rows="10"></textarea>
         </div>
         <p></p>
         <div class="mb-3">
@@ -72,7 +69,7 @@
         <button type="submit" class="btn btn-warning">저장</button>
     </form>
     <script>
-        document.getElementById('inputDate').value = new Date().toISOString().substring(0, 10);;
+        document.getElementById('inputDate').value = new Date().toLocaleDateString('en-CA');
     </script>
 </body>
 </html>
