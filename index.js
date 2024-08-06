@@ -47,8 +47,9 @@ app.listen(port, () => {
 
 app.use(session({
   secret : process.env.SESSION_SECRET,
-  resave : false,
+  resave : true,
   saveUninitialized : true
+  
 }))
 
 app.get('/list', (req, res) => {
@@ -65,7 +66,7 @@ app.get('/list', (req, res) => {
 })
 
 app.get('/enter', (req, res) => {
-  res.render('enter.ejs', {user : req.session.user? req.session.user : {userid : '로그인 후 이용하세요'}});
+  res.render('enter.ejs', {user : req.session.user? req.session.user : {userid : '익명'}});
 })
 
 app.post('/save', (req, res) => {
