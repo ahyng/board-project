@@ -47,9 +47,10 @@ app.listen(port, () => {
 
 app.use(session({
   secret : process.env.SESSION_SECRET,
-  resave : true,
-  saveUninitialized : true
-  
+  resave : false,
+  saveUninitialized : true,
+  cookie : { maxAge : 60000 },
+  rolling : true
 }))
 
 app.get('/list', (req, res) => {
@@ -158,7 +159,7 @@ app.post('/login', (req, res) => {
     .collection('account')
     .findOne({userid : req.body.userid})
     .then((result) => {
-      if (result.userpwd == sha(req.body.userpwd)){
+      if (result && result.userpwd == sha(req.body.userpwd)){
         req.session.user = req.body;
         res.render('index.ejs', {user : req.session.user});
 
