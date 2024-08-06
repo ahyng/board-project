@@ -9,5 +9,11 @@
 <body>
     <%- include('menu.html') %>
     
+    <% if (user) { %>
+        <h3>반갑습니다. <%= user.userid %>님</h3>
+        <button onclick="location.href='/logout'">logout</button>
+    <% } else { %>
+    <button onclick="location.href='/login'">login</button>
+    <% } %>
 </body>
 </html>

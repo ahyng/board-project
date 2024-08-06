@@ -175,5 +175,5 @@ app.get('/logout', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-  res.render('index.ejs');
+  res.render('index.ejs', {user : req.session.user});
 })
