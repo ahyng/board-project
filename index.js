@@ -3,6 +3,9 @@ const mongoclient = require('mongodb').MongoClient;
 const { ObjectId } = require('mongodb')
 const url = config.mongoURI
 let mydb;
+require('dotenv').config();
+const session = require('express-session');
+
 mongoclient.connect(url)
   .then(client => {
     mydb = client.db('board');
@@ -27,6 +30,7 @@ mongoclient.connect(url)
 
 // conn.connect();
 
+
 const express = require('express');
 const app = express();
 const port = 3000;
@@ -39,6 +43,12 @@ app.set('view engine', 'ejs');
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
   })
+
+app.use(session({
+  secret : process.env.SESSION_SECRET,
+  resave : false,
+  saveUninitialized : true
+}))
 
 app.get('/list', (req, res) => {
   // conn.query("select * from post", function(err, rows, fields){
@@ -132,7 +142,36 @@ app.post('/edit', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
-  res.render('login.ejs');
+  console.log(req.session);
+  if (req.session.user){
+    console.log('세션 유지');
+    res.render('index.ejs', {user : req.session.user});
+  } else {
+    res.render('login.ejs');
+  }
+})
+
+app.post('/login', (req, res) => {
+  console.log(req.body.userid, req.body.userpwd);
+
+  mydb
+    .collection('account')
+    .findOne({userid : req.body.userid})
+    .then((result) => {
+      if (result.userpwd == req.body.userpwd){
+        req.session.user = req.body;
+        res.render('index.ejs', {user : req.session.user});
+
+      } else {
+        res.render('login.ejs');
+      }
+    })
+})
+
+app.get('/logout', (req, res) => {
+  console.log('로그아웃');
+  req.session.destroy();
+  res.render('index.ejs', {user : null});
 })
 
 app.get('/', (req, res) => {

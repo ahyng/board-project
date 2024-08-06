@@ -38,15 +38,15 @@
 </head>
 <body>
     <%- include('menu.html') %>
-    <form>
+    <form action="/login" method="post">
         <h1>login</h1>
         <div class="mb-3">
             <label for="floatingInput">ID</label>
-            <input type="text" class="form-control" id="floatingInput" style="font-size: 25px;">
+            <input name="userid" type="text" class="form-control" id="floatingInput" style="font-size: 25px;">
         </div>
         <div class="mb-3">
             <label for="floatingPassword">Password</label>
-            <input type="password" class="form-control" id="floatingPassword" style="font-size: 25px;">
+            <input name="userpwd" type="password" class="form-control" id="floatingPassword" style="font-size: 25px;">
         </div>
         <button id="loginBtn" type="submit" class="btn btn-warning">완료</button>
       </form>
