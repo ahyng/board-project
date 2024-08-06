@@ -43,7 +43,7 @@
             <h3>반갑습니다. <%= user.userid %>님</h3>
             <div id="btns">
                 <button id="logout" class="btn btn-warning" onclick="location.href='/logout'">logout</button>
-                <button class="btn btn-secondary" onclick="location.href='/delete_user'">계정 삭제</button>
+                <button class="btn btn-secondary" onclick="deleteUser()">계정 삭제</button>
             </div>
         <% } else { %>
             <h3>SimpleBoard</h3>
@@ -51,5 +51,13 @@
             <button class="btn btn-warning" onclick="location.href='/login'">login</button>
         <% } %>
     </div>
+    <script>
+        function deleteUser() {
+            let check = confirm('정말 삭제하시겠습니까?');
+            if (check) {
+                window.location.href = '/delete_user';
+            }
+        }
+    </script>
 </body>
 </html>

@@ -49,7 +49,7 @@ app.use(session({
   secret : process.env.SESSION_SECRET,
   resave : false,
   saveUninitialized : true,
-  cookie : { maxAge : 60000 },
+  cookie : { maxAge : 60 * 60 * 12 },
   rolling : true
 }))
 
@@ -73,7 +73,7 @@ app.get('/enter', (req, res) => {
 app.post('/save', (req, res) => {
 
   mydb.collection('post').insertOne(
-    {title : req.body.title, content: req.body.content, date: req.body.someDate}
+    {title : req.body.title, content: req.body.content, author: req.body.author, date: req.body.someDate}
   ).then(result => {
     console.log(result);
     console.log('데이터 추가 성공');
