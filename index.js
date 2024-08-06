@@ -153,7 +153,6 @@ app.get('/login', (req, res) => {
 })
 
 app.post('/login', (req, res) => {
-
   mydb
     .collection('account')
     .findOne({userid : req.body.userid})
@@ -190,6 +189,22 @@ app.post('/signup', (req, res) => {
       console.log('회원가입 성공');
     })
     res.redirect('/');
+})
+
+app.get('/delete_user', (req, res) => {
+  console.log(req.session);
+  req.body = req.session.user;
+  mydb
+    .collection('account')
+    .deleteOne(req.bpdy)
+    .then((result) => {
+      req.session.destroy();
+      console.log('삭제 완료');
+      res.render('index.ejs', {user : null});
+    }).catch((err) => {
+      console.log(err);
+    })
+
 })
 
 app.get('/', (req, res) => {

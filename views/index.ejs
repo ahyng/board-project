@@ -12,7 +12,24 @@
             margin: auto;
             margin-top: 10%;
             padding: 20px;
+            padding-bottom: 10px;
             /* border-radius: 10px; */
+        }
+
+        button {
+            font-size: 20px;
+        }
+
+        h5 {
+            margin-top: 10px;
+        }
+
+        #btns {
+            display: flex;
+        }
+
+        #logout {
+            margin-right: 10px;
         }
 
 
@@ -24,9 +41,13 @@
     <div id="welcomeBox">
         <% if (user) { %>
             <h3>반갑습니다. <%= user.userid %>님</h3>
-            <button class="btn btn-warning" onclick="location.href='/logout'">logout</button>
+            <div id="btns">
+                <button id="logout" class="btn btn-warning" onclick="location.href='/logout'">logout</button>
+                <button class="btn btn-secondary" onclick="location.href='/delete_user'">계정 삭제</button>
+            </div>
         <% } else { %>
             <h3>SimpleBoard</h3>
+            <h5>로그인 후 이용해주세요.</h5>
             <button class="btn btn-warning" onclick="location.href='/login'">login</button>
         <% } %>
     </div>
