@@ -174,6 +174,24 @@ app.get('/logout', (req, res) => {
   res.render('index.ejs', {user : null});
 })
 
+app.get('/signup', (req, res) => {
+  res.render('signup.ejs');
+})
+
+app.post('/signup', (req, res) => {
+  mydb 
+    .collection('account')
+    .insertOne({
+      userid : req.body.userid,
+      userpwd : req.body.userpwd,
+      username : req.body.username,
+    })
+    .then((result) => {
+      console.log('회원가입 성공');
+    })
+    res.redirect('/');
+})
+
 app.get('/', (req, res) => {
-  res.render('index.ejs', {user : req.session.user});
+  res.render('index.ejs', {user : req.session.user? req.session.user : null});
 })
