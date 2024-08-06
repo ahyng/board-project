@@ -5,6 +5,7 @@ const url = config.mongoURI
 let mydb;
 require('dotenv').config();
 const session = require('express-session');
+const sha = require('sha256');
 
 mongoclient.connect(url)
   .then(client => {
@@ -152,13 +153,12 @@ app.get('/login', (req, res) => {
 })
 
 app.post('/login', (req, res) => {
-  console.log(req.body.userid, req.body.userpwd);
 
   mydb
     .collection('account')
     .findOne({userid : req.body.userid})
     .then((result) => {
-      if (result.userpwd == req.body.userpwd){
+      if (result.userpwd == sha(req.body.userpwd)){
         req.session.user = req.body;
         res.render('index.ejs', {user : req.session.user});
 
@@ -183,7 +183,7 @@ app.post('/signup', (req, res) => {
     .collection('account')
     .insertOne({
       userid : req.body.userid,
-      userpwd : req.body.userpwd,
+      userpwd : sha(req.body.userpwd),
       username : req.body.username,
     })
     .then((result) => {
