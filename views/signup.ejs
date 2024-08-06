@@ -28,26 +28,20 @@
             margin-bottom: 30px;
         }
 
-        #Btns button {
+        #loginBtn {
+            margin-right: 10px;
             font-size: 20px;
             margin-top: 20px;
         }
 
-        #loginBtn {
-            margin-right: 10px;
-        }
-
-        #Btns {
-            display: flex;
-        }
 
 
     </style>
 </head>
 <body>
     <%- include('menu.html') %>
-    <form action="/login" method="post">
-        <h1>login</h1>
+    <form action="/signup" method="post">
+        <h1>회원가입</h1>
         <div class="mb-3">
             <label for="floatingInput">ID</label>
             <input name="userid" type="text" class="form-control" id="floatingInput" style="font-size: 25px;">
@@ -56,10 +50,11 @@
             <label for="floatingPassword">Password</label>
             <input name="userpwd" type="password" class="form-control" id="floatingPassword" style="font-size: 25px;">
         </div>
-        <div id="Btns">
-            <button id="loginBtn" type="submit" class="btn btn-warning">완료</button>
-            <button type="submit" class="btn btn-secondary">아직 회원이 아니신가요?</button>
+        <div class="mb-3">
+            <label for="floatingPassword">닉네임</label>
+            <input name="username" type="text" class="form-control" id="floatingPassword" style="font-size: 25px;">
         </div>
+        <button id="loginBtn" type="submit" class="btn btn-warning">완료</button>
       </form>
 </body>
 </html>
