@@ -222,6 +222,20 @@ app.get('/search', (req, res) => {
     })
 })
 
+app.get('/myContent', (req, res) => {
+  console.log(req.session.user);
+  mydb
+    .collection('post')
+    .find({author : req.session.user.userid}).toArray()
+    .then((result) => {
+      res.render('search.ejs', {data : result});
+      console.log('완료');
+    }).catch(err => {
+      console.log(err);
+    })
+})
+
 app.get('/', (req, res) => {
+  console.log(req.session);
   res.render('index.ejs', {user : req.session.user? req.session.user : null});
 })
