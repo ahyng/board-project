@@ -42,23 +42,74 @@
             font-size: 20px;
         }
 
+        #welcomeBox {
+            border: 2px solid rgb(184, 184, 184);
+            width: 30%;
+            margin: 0 auto;
+            margin-top: 10%;
+            padding: 20px;
+            padding-bottom: 10px;
+            /* border-radius: 10px; */
+            background-color: rgb(244, 244, 244);
+        }
+
+        button {
+            font-size: 20px;
+        }
+
+        h5 {
+            margin-top: 10px;
+        }
+
     </style>
 </head>
 <body>
     <%- include('menu.html') %>
 
-    <div class="card " id="contentBox">
-        <div class="card-header">
-            <h2><%= data.title %></h2>
-            <h5>작성자 : <%= data.author %></h5>
+    <% if (user) { %>
+
+        <div class="card " id="contentBox">
+            <div class="card-header">
+                <h2><%= data.title %></h2>
+                <h5>작성자 : <%= data.author %></h5>
+            </div>
+            <div class="card-body" id="content"><%= data.content %></div>
+            <div class="card-footer" id="cardFooter">
+                <div id="savedDate">작성일: <%= data.date %></div>
+                <% if (user.userid == data.author) { %>
+                    <button id="editBtn" type="button" class="btn btn-warning" onclick="location.href='/edit/<%= data._id %>'" >수정하기</button>
+                    <button class="delete btn btn-warning" data-id="<%= data._id %>">삭제</button> 
+                <% } %>
+            </div>
         </div>
-        <div class="card-body" id="content"><%= data.content %></div>
-        <div class="card-footer" id="cardFooter">
-            <div id="savedDate">작성일: <%= data.date %></div>
-            <% if (user.userid == data.author) { %>
-                <button id="editBtn" type="button" class="btn btn-warning" onclick="location.href='/edit/<%= data._id %>'" >수정하기</button>
-            <% } %>
+
+    <% } else { %>
+        <div id="welcomeBox">
+            <h3>SimpleBoard</h3>
+            <h5>로그인 후 이용해주세요.</h5>
+            <button id="loginBtn" class="btn btn-warning" onclick="location.href='/login'">login</button>
         </div>
-    </div>
+    <% } %>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
+        $('.delete').click((e) => {
+            let check = confirm('정말 삭제하시겠습니까?');
+            if (check) {
+                let sid = e.target.dataset.id;
+                let item = $(e.target);
+                $.ajax({
+                    type: 'post',
+                    url: '/delete',
+                    data: {_id : sid}
+                }).done((result) => {
+                    item.closest('tr').remove();
+                    location.href = '/list';
+                }).fail((xhr, textStatus, errorThrown) => {
+                    console.log('게시물 삭제 실패');
+                    console.log(xhr, textStatus, errorThrown);
+                });
+            }  
+        });
+    </script>
 </body>
 </html>

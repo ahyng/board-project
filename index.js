@@ -98,12 +98,14 @@ app.post('/delete', (req, res) => {
   mydb.collection('post').deleteOne(req.body)
   .then(result => {
     console.log('삭제 완료');
+    // res.status(200).json({ redirect: '/list' });
     res.status(200).send();
   })
   .catch(err => {
     console.log(err);
     res.status(500).send();
   })
+  
 })
 
 app.get('/content/:id', (req, res) => {
@@ -114,7 +116,7 @@ app.get('/content/:id', (req, res) => {
     .findOne({_id : req.params.id})
     .then((result) => {
       console.log(result);
-      res.render('content.ejs', {data : result, user : req.session.user? req.session.user : null});
+      res.render('content.ejs', {data : result, user : req.session.user || null});
     });
 })
 
