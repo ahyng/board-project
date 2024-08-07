@@ -61,7 +61,7 @@ app.get('/list', (req, res) => {
 
   mydb.collection('post').find().toArray().then(result => {
     console.log(result);
-    res.render('list.ejs', {data : result});
+    res.render('list.ejs', {data : result, user : req.session.user? req.session.user : false});
   })
 
 })
