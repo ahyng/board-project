@@ -102,6 +102,11 @@
             console.log(xhr, textStatus, errorThrown);
         });
         });
+
+        $('.searchBtn').click(() => {
+            let inputValue = $('.searchBar').val();
+            location.href = '\\search?value=' + inputValue;
+        })
         
     </script>
 </body>

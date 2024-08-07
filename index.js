@@ -60,7 +60,7 @@ app.get('/list', (req, res) => {
   // })
 
   mydb.collection('post').find().toArray().then(result => {
-    console.log(result);
+    // console.log(result);
     res.render('list.ejs', {data : result, user : req.session.user? req.session.user : false});
   })
 
@@ -207,6 +207,16 @@ app.get('/delete_user', (req, res) => {
       console.log(err);
     })
 
+})
+
+app.get('/search', (req, res) => {
+  console.log(req.query);
+  mydb
+    .collection('post')
+    .find({title : { $regex: req.query.value, $options: 'i' } }).toArray()
+    .then((result) => {
+      console.log(result);
+    })
 })
 
 app.get('/', (req, res) => {
