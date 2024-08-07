@@ -30,11 +30,17 @@
 
         #signupBtn {
             margin-right: 10px;
-            font-size: 20px;
+        }
+
+        #Btns {
+            display: flex;
+            margin-right: 10px;
             margin-top: 20px;
         }
 
-
+        #Btns button {
+            font-size: 20px;
+        }
 
     </style>
 </head>
@@ -54,7 +60,10 @@
             <label for="floatingPassword">닉네임</label>
             <input name="username" type="text" class="form-control" id="floatingPassword" style="font-size: 25px;">
         </div>
-        <button id="signupBtn" type="submit" class="btn btn-warning">완료</button>
-      </form>
+        <div id="Btns">
+            <button id="signupBtn" type="submit" class="btn btn-warning">완료</button>
+            <button type="button" onclick="location.href='/login'" class="btn btn-secondary">로그인 페이지로 이동</button>
+        </div>
+    </form>
 </body>
 </html>

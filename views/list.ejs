@@ -35,12 +35,26 @@
             margin-top: 10px;
         }
 
+        #searchBox {
+            width: 40%;
+            margin: 10px auto;
+        }
+
+        #searchBox input, #searchBox button {
+            font-size: 25px;
+        }
+
     </style>
 </head>
 <body>
     <%- include('menu.html') %>
 
     <% if (user) { %>
+
+    <form id="searchBox" class="d-flex" role="search">
+        <input class="form-control me-2 searchBar" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success searchBtn" type="submit">enter</button>
+    </form>
 
     <table class="table w-75 p-3">
         <thead>

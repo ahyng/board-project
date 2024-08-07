@@ -16,7 +16,7 @@
             /* border-radius: 10px; */
         }
 
-        button {
+        #btns button {
             font-size: 20px;
         }
 
@@ -40,7 +40,7 @@
     
     <div id="welcomeBox">
         <% if (user) { %>
-            <h3>반갑습니다. <%= user.userid %>님</h3>
+            <h2>반갑습니다. <%= user.userid %>님</h2>
             <div id="btns">
                 <button id="logout" class="btn btn-warning" onclick="location.href='/logout'">logout</button>
                 <button class="btn btn-secondary" onclick="deleteUser()">계정 삭제</button>
