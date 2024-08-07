@@ -24,7 +24,7 @@
             font-size: 25px;
         }
 
-        input[type='text'] {
+        #inputTitle {
             font-size: 30px;
             border-radius: 10px;
         }
@@ -45,34 +45,42 @@
             border-radius: 10px;
         }
 
+        #author {
+            font-size: 25px;
+        }
+
 
     </style>
 </head>
 <body>
     <%- include('menu.html') %>
 
-    <form action="/save" method="post">
-        <div class="mb-3">
-            <label class="form-label" for="inputTitle">제목</label>
-            <input required type="text" class="input form-control" id="inputTitle" name="title">
-        </div>
-        <p></p>
-        <div class="mb-3">
-            <label class="form-label">내용</label>
-            <textarea required name="content" cols="20" wrap="hard" class="form-control" rows="10"></textarea>
-        </div>
-        <p></p>
-        <div class="mb-3">
-            <label class="form-label">작성자</label>
-            <input readonly type="text" class="form-control" name="author" value="<%= user.userid %>">
-        </div>
+    <% if (user) { %>
+        <form action="/save" method="post">
+            <div class="mb-3">
+                <label class="form-label" for="inputTitle">제목</label>
+                <input required type="text" class="input form-control" id="inputTitle" name="title">
+            </div>
+            <p></p>
+            <div class="mb-3">
+                <label class="form-label">내용</label>
+                <textarea required name="content" cols="16" wrap="hard" class="form-control" rows="8"></textarea>
+            </div>
+            <p></p>
+            <div class="mb-3">
+                <label class="form-label">작성자</label>
+                <input readonly id="author" type="text" class="form-control" name="author" value="<%= user.userid %>">
+            </div>
 
-        <div class="mb-3">
-            <label class="form-label">작성일</label>
-            <input readonly type="date" class="form-control" name="someDate" id="inputDate">
-        </div>
-        <button type="submit" class="btn btn-warning">저장</button>
-    </form>
+            <div class="mb-3">
+                <label class="form-label">작성일</label>
+                <input readonly type="date" class="form-control" name="someDate" id="inputDate">
+            </div>
+            <button type="submit" class="btn btn-warning">저장</button>
+        </form>
+    <% } else { %>
+        <h1>로그인 후 이용해주세요.</h1>
+    <% } %>
     <script>
         document.getElementById('inputDate').value = new Date().toLocaleDateString('en-CA');
     </script>

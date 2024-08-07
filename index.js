@@ -67,7 +67,7 @@ app.get('/list', (req, res) => {
 })
 
 app.get('/enter', (req, res) => {
-  res.render('enter.ejs', {user : req.session.user? req.session.user : {userid : '익명'}});
+  res.render('enter.ejs', {user : req.session.user? req.session.user : false});
 })
 
 app.post('/save', (req, res) => {
