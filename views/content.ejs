@@ -42,6 +42,10 @@
             font-size: 20px;
         }
 
+        #deleteBtn{
+            font-size: 20px;
+        }
+
         #welcomeBox {
             border: 2px solid rgb(184, 184, 184);
             width: 30%;
@@ -78,7 +82,7 @@
                 <div id="savedDate">작성일: <%= data.date %></div>
                 <% if (user.userid == data.author) { %>
                     <button id="editBtn" type="button" class="btn btn-warning" onclick="location.href='/edit/<%= data._id %>'" >수정하기</button>
-                    <button class="delete btn btn-warning" data-id="<%= data._id %>">삭제</button> 
+                    <button id="deleteBtn" type="button" class="delete btn btn-outline-danger" data-id="<%= data._id %>">삭제</button> 
                 <% } %>
             </div>
         </div>

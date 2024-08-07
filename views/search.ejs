@@ -67,13 +67,12 @@
             </form>
         </div>
 
-        <table class="table w-75 p-3">
+        <table class="table w-75 p-3 table-hover">
             <thead>
                 <tr>
                     <th style="width: 45%; padding-left: 20px;">제목</th>
                     <th style="width: 20%; text-align: center;">작성자</th>
                     <th style="width: 20%; text-align: center;">작성일</th>
-                    <th style="width: 15%; text-align: center;">삭제</th>
                 </tr>
             </thead>
             <tbody>
@@ -82,11 +81,6 @@
                         <td style="padding-left: 20px;"><span style="color: #0d6efd;"><%= data[i].title %></span></td>                   
                         <td style=" text-align: center;"><%= data[i].author %></td>
                         <td style=" text-align: center;"><%= data[i].date %></td>
-                        <td style="text-align: center;">
-                            <% if (user && user.userid == data[i].author) { %>
-                                <button class="delete btn btn-warning" data-id="<%= data[i]._id %>">삭제</button>
-                            <% } %>
-                        </td>
                     </tr>
                 <% } %>
             </tbody>
@@ -103,21 +97,6 @@
         
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script>
-        $('.delete').click((e) => {
-            let sid = e.target.dataset.id;
-            let item = $(e.target);
-            $.ajax({
-            type: 'post',
-            url: '/delete',
-            data: {_id : sid}
-        }).done((result) => {
-            item.closest('tr').remove();
-        }).fail((xhr, textStatus, errorThrown) => {
-            console.log('게시물 삭제 실패');
-            console.log(xhr, textStatus, errorThrown);
-        });
-        });
-
         $('.searchBtn').click((e) => {
             e.preventDefault();
             let inputValue = $('.searchBar').val();
