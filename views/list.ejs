@@ -35,14 +35,22 @@
             margin-top: 10px;
         }
 
-        #searchBox {
-            width: 40%;
-            margin: 10px auto;
+        #dashboard {
+            display: flex;
+            margin: 20px auto;
+            justify-content: center;
+        }
+
+        #dashboard button {
+            margin-right: 10px;
+            font-size: 25px;
         }
 
         #searchBox input, #searchBox button {
             font-size: 25px;
         }
+
+        
 
     </style>
 </head>
@@ -51,10 +59,14 @@
 
     <% if (user) { %>
 
-    <form id="searchBox" class="d-flex" role="search">
-        <input class="form-control me-2 searchBar" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success searchBtn" type="submit">enter</button>
-    </form>
+    <div id="dashboard">
+        <button onclick="location.href='/enter'" class="btn btn-warning">글쓰기</button>
+        <button class="myContent btn btn-success">내글보기</button>
+        <form id="searchBox" class="d-flex" role="search">
+            <input class="form-control me-2 searchBar" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success searchBtn" type="submit">enter</button>
+        </form>
+    </div>
 
     <table class="table w-75 p-3">
         <thead>
