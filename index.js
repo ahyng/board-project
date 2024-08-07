@@ -206,7 +206,6 @@ app.get('/delete_user', (req, res) => {
     }).catch((err) => {
       console.log(err);
     })
-
 })
 
 app.get('/search', (req, res) => {
@@ -216,6 +215,10 @@ app.get('/search', (req, res) => {
     .find({title : { $regex: req.query.value, $options: 'i' } }).toArray()
     .then((result) => {
       console.log(result);
+      res.render('search.ejs', {data : result});
+      console.log('완료');
+    }).catch(err => {
+      console.log(err);
     })
 })
 

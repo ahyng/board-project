@@ -103,9 +103,10 @@
         });
         });
 
-        $('.searchBtn').click(() => {
+        $('.searchBtn').click((e) => {
+            e.preventDefault();
             let inputValue = $('.searchBar').val();
-            location.href = '\\search?value=' + inputValue;
+            location.href = '/search?value=' + inputValue;
         })
         
     </script>
