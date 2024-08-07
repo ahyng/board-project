@@ -3,6 +3,10 @@ const mongoclient = require('mongodb').MongoClient;
 const { ObjectId } = require('mongodb')
 const url = config.mongoURI
 let mydb;
+require('dotenv').config();
+const session = require('express-session');
+const sha = require('sha256');
+
 mongoclient.connect(url)
   .then(client => {
     mydb = client.db('board');
@@ -27,6 +31,7 @@ mongoclient.connect(url)
 
 // conn.connect();
 
+
 const express = require('express');
 const app = express();
 const port = 3000;
@@ -40,6 +45,14 @@ app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
   })
 
+app.use(session({
+  secret : process.env.SESSION_SECRET,
+  resave : false,
+  saveUninitialized : true,
+  cookie : { maxAge : 60 * 60 * 12 },
+  rolling : true
+}))
+
 app.get('/list', (req, res) => {
   // conn.query("select * from post", function(err, rows, fields){
   //   if (err) throw err;
@@ -47,20 +60,20 @@ app.get('/list', (req, res) => {
   // })
 
   mydb.collection('post').find().toArray().then(result => {
-    console.log(result);
-    res.render('list.ejs', {data : result});
+    // console.log(result);
+    res.render('list.ejs', {data : result, user : req.session.user? req.session.user : false});
   })
 
 })
 
 app.get('/enter', (req, res) => {
-  res.render('enter.ejs');
+  res.render('enter.ejs', {user : req.session.user? req.session.user : false});
 })
 
 app.post('/save', (req, res) => {
 
   mydb.collection('post').insertOne(
-    {title : req.body.title, content: req.body.content, date: req.body.someDate}
+    {title : req.body.title, content: req.body.content, author: req.body.author, date: req.body.someDate}
   ).then(result => {
     console.log(result);
     console.log('데이터 추가 성공');
@@ -101,7 +114,7 @@ app.get('/content/:id', (req, res) => {
     .findOne({_id : req.params.id})
     .then((result) => {
       console.log(result);
-      res.render('content.ejs', {data : result});
+      res.render('content.ejs', {data : result, user : req.session.user? req.session.user : null});
     });
 })
 
@@ -131,6 +144,99 @@ app.post('/edit', (req, res) => {
     })
 })
 
+app.get('/login', (req, res) => {
+  console.log(req.session);
+  if (req.session.user){
+    console.log('세션 유지');
+    res.render('index.ejs', {user : req.session.user});
+  } else {
+    res.render('login.ejs');
+  }
+})
+
+app.post('/login', (req, res) => {
+  mydb
+    .collection('account')
+    .findOne({userid : req.body.userid})
+    .then((result) => {
+      if (result && result.userpwd == sha(req.body.userpwd)){
+        req.session.user = req.body;
+        res.render('index.ejs', {user : req.session.user});
+
+      } else {
+        res.render('login.ejs');
+      }
+    })
+})
+
+app.get('/logout', (req, res) => {
+  console.log('로그아웃');
+  req.session.destroy();
+  res.render('index.ejs', {user : null});
+})
+
+app.get('/signup', (req, res) => {
+  res.render('signup.ejs');
+})
+
+app.post('/signup', (req, res) => {
+  mydb 
+    .collection('account')
+    .insertOne({
+      userid : req.body.userid,
+      userpwd : sha(req.body.userpwd),
+      username : req.body.username,
+    })
+    .then((result) => {
+      console.log('회원가입 성공');
+    })
+    res.redirect('/');
+})
+
+app.get('/delete_user', (req, res) => {
+  console.log(req.session);
+  req.body = req.session.user;
+  mydb
+    .collection('account')
+    .deleteOne(req.bpdy)
+    .then((result) => {
+      req.session.destroy();
+      console.log('삭제 완료');
+      res.render('index.ejs', {user : null});
+    }).catch((err) => {
+      console.log(err);
+    })
+})
+
+app.get('/search', (req, res) => {
+  console.log(req.query);
+  mydb
+    .collection('post')
+    .find({title : { $regex: req.query.value, $options: 'i' } }).toArray()
+    .then((result) => {
+      console.log(result);
+      res.render('search.ejs', {data : result, user: req.session.user || false});
+
+      console.log('완료');
+    }).catch(err => {
+      console.log(err);
+    })
+})
+
+app.get('/myContent', (req, res) => {
+  console.log(req.session.user);
+  mydb
+    .collection('post')
+    .find({author : req.session.user.userid}).toArray()
+    .then((result) => {
+      res.render('search.ejs', {data : result, user: req.session.user || false});
+      console.log('완료');
+    }).catch(err => {
+      console.log(err);
+    })
+})
+
 app.get('/', (req, res) => {
-  res.render('index.ejs');
+  console.log(req.session);
+  res.render('index.ejs', {user : req.session.user? req.session.user : null});
 })

@@ -9,34 +9,12 @@
         
         table {
             font-size: 30px;
-            
-            margin-top: 40px;
-            margin-bottom: 200px;
-            margin: auto;
+            margin: 30px auto;
             border: 2px solid;
         }
 
         .delete {
             font-size: 20px;
-        }
-
-        #welcomeBox {
-            border: 2px solid rgb(184, 184, 184);
-            width: 30%;
-            margin: 0 auto;
-            margin-top: 10%;
-            padding: 20px;
-            padding-bottom: 10px;
-            /* border-radius: 10px; */
-            background-color: rgb(244, 244, 244);
-        }
-
-        button {
-            font-size: 20px;
-        }
-
-        h5 {
-            margin-top: 10px;
         }
 
         #dashboard {
@@ -54,21 +32,15 @@
             font-size: 25px;
         }
 
-        #loginBtn {
-            font-size: 20px;
-        }
-
-
     </style>
 </head>
 <body>
     <%- include('menu.html') %>
 
-    <% if (user) { %>
-
     <div id="dashboard">
         <button onclick="location.href='/enter'" class="btn btn-warning">글쓰기</button>
         <button class="myContent btn btn-success">내글보기</button>
+        <button onclick="location.href='/list'" class="btn btn btn-secondary">전체 목록</button>
         <form id="searchBox" class="d-flex" role="search">
             <input class="form-control me-2 searchBar" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success searchBtn" type="submit">enter</button>
@@ -89,9 +61,9 @@
                 <tr>
                     <td style="padding-left: 20px;"><a href="/content/<%= data[i]._id %>"><%= data[i].title %></a></td>                   
                     <td style=" text-align: center;"><%= data[i].author %></td>
-                    <td style=" text-align: center;"><%= data[i].date %></td>    
+                    <td style=" text-align: center;"><%= data[i].date %></td>
                     <td style="text-align: center;">
-                        <% if (user.userid == data[i].author) { %>
+                        <% if (user && user.userid == data[i].author) { %>
                             <button class="delete btn btn-warning" data-id="<%= data[i]._id %>">삭제</button>
                         <% } %>
                     </td>
@@ -100,33 +72,22 @@
         </tbody>
     </table>
 
-    <% } else { %>
-        <div id="welcomeBox">
-            <h3>SimpleBoard</h3>
-            <h5>로그인 후 이용해주세요.</h5>
-            <button id="loginBtn" class="btn btn-warning" onclick="location.href='/login'">login</button>
-        </div>
-    <% } %>
         
-
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script>
         $('.delete').click((e) => {
-            let check = confirm('정말 삭제하시겠습니까?');
-            if (check) {
-                let sid = e.target.dataset.id;
-                let item = $(e.target);
-                $.ajax({
-                    type: 'post',
-                    url: '/delete',
-                    data: {_id : sid}
-                }).done((result) => {
-                    item.closest('tr').remove();
-                }).fail((xhr, textStatus, errorThrown) => {
-                    console.log('게시물 삭제 실패');
-                    console.log(xhr, textStatus, errorThrown);
-                });
-            }  
+            let sid = e.target.dataset.id;
+            let item = $(e.target);
+            $.ajax({
+            type: 'post',
+            url: '/delete',
+            data: {_id : sid}
+        }).done((result) => {
+            item.closest('tr').remove();
+        }).fail((xhr, textStatus, errorThrown) => {
+            console.log('게시물 삭제 실패');
+            console.log(xhr, textStatus, errorThrown);
+        });
         });
 
         $('.searchBtn').click((e) => {

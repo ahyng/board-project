@@ -11,11 +11,14 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
+    "express-session": "^1.18.0",
     "mongodb": "^6.8.0",
     "mongoose": "^8.5.2",
     "node-mysql": "^0.4.2",
+    "sha256": "^0.2.0",
     "sqlite3": "^5.1.7"
   }
 }
