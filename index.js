@@ -114,7 +114,7 @@ app.get('/content/:id', (req, res) => {
     .findOne({_id : req.params.id})
     .then((result) => {
       console.log(result);
-      res.render('content.ejs', {data : result});
+      res.render('content.ejs', {data : result, user : req.session.user? req.session.user : null});
     });
 })
 
@@ -216,6 +216,7 @@ app.get('/search', (req, res) => {
     .then((result) => {
       console.log(result);
       res.render('search.ejs', {data : result, user: req.session.user || false});
+
       console.log('완료');
     }).catch(err => {
       console.log(err);
