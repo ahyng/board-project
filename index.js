@@ -225,15 +225,19 @@ app.get('/search', (req, res) => {
 
 app.get('/myContent', (req, res) => {
   console.log(req.session.user);
-  mydb
+  if (req.session.user) {
+    mydb
     .collection('post')
     .find({author : req.session.user.userid}).toArray()
     .then((result) => {
-      res.render('search.ejs', {data : result, user: req.session.user || false});
+      res.render('search.ejs', {data : result, user: req.session.user || null});
       console.log('완료');
     }).catch(err => {
       console.log(err);
     })
+  } else {
+    res.render('search.ejs', {user: null});
+  }
 })
 
 app.get('/', (req, res) => {

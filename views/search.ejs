@@ -32,45 +32,73 @@
             font-size: 25px;
         }
 
+        #welcomeBox {
+            border: 2px solid rgb(184, 184, 184);
+            width: 30%;
+            margin: 0 auto;
+            margin-top: 10%;
+            padding: 20px;
+            padding-bottom: 10px;
+            /* border-radius: 10px; */
+            background-color: rgb(244, 244, 244);
+        }
+
+        button {
+            font-size: 20px;
+        }
+
+        h5 {
+            margin-top: 10px;
+        }
+
     </style>
 </head>
 <body>
     <%- include('menu.html') %>
 
-    <div id="dashboard">
-        <button onclick="location.href='/enter'" class="btn btn-warning">글쓰기</button>
-        <button class="myContent btn btn-success">내글보기</button>
-        <button onclick="location.href='/list'" class="btn btn btn-secondary">전체 목록</button>
-        <form id="searchBox" class="d-flex" role="search">
-            <input class="form-control me-2 searchBar" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success searchBtn" type="submit">enter</button>
-        </form>
-    </div>
+    <% if (user) { %>
+        <div id="dashboard">
+            <button onclick="location.href='/enter'" class="btn btn-warning">글쓰기</button>
+            <button class="myContent btn btn-success">내글보기</button>
+            <button onclick="location.href='/list'" class="btn btn btn-secondary">전체 목록</button>
+            <form id="searchBox" class="d-flex" role="search">
+                <input class="form-control me-2 searchBar" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success searchBtn" type="submit">enter</button>
+            </form>
+        </div>
 
-    <table class="table w-75 p-3">
-        <thead>
-            <tr>
-                <th style="width: 45%; padding-left: 20px;">제목</th>
-                <th style="width: 20%; text-align: center;">작성자</th>
-                <th style="width: 20%; text-align: center;">작성일</th>
-                <th style="width: 15%; text-align: center;">삭제</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% for (let i=0; i < data.length; i++){ %>
-                <tr onclick="location.href='/content/<%= data[i]._id %>'" style="cursor: pointer;">
-                    <td style="padding-left: 20px;"><span style="color: #0d6efd;"><%= data[i].title %></span></td>                   
-                    <td style=" text-align: center;"><%= data[i].author %></td>
-                    <td style=" text-align: center;"><%= data[i].date %></td>
-                    <td style="text-align: center;">
-                        <% if (user && user.userid == data[i].author) { %>
-                            <button class="delete btn btn-warning" data-id="<%= data[i]._id %>">삭제</button>
-                        <% } %>
-                    </td>
+        <table class="table w-75 p-3">
+            <thead>
+                <tr>
+                    <th style="width: 45%; padding-left: 20px;">제목</th>
+                    <th style="width: 20%; text-align: center;">작성자</th>
+                    <th style="width: 20%; text-align: center;">작성일</th>
+                    <th style="width: 15%; text-align: center;">삭제</th>
                 </tr>
-            <% } %>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <% for (let i=0; i < data.length; i++){ %>
+                    <tr onclick="location.href='/content/<%= data[i]._id %>'" style="cursor: pointer;">
+                        <td style="padding-left: 20px;"><span style="color: #0d6efd;"><%= data[i].title %></span></td>                   
+                        <td style=" text-align: center;"><%= data[i].author %></td>
+                        <td style=" text-align: center;"><%= data[i].date %></td>
+                        <td style="text-align: center;">
+                            <% if (user && user.userid == data[i].author) { %>
+                                <button class="delete btn btn-warning" data-id="<%= data[i]._id %>">삭제</button>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <div id="welcomeBox">
+            <h3>SimpleBoard</h3>
+            <h5>로그인 후 이용해주세요.</h5>
+            <button id="loginBtn" class="btn btn-warning" onclick="location.href='/login'">login</button>
+        </div>
+    <% } %>
+
 
         
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
