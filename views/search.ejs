@@ -61,7 +61,11 @@
                     <td style="padding-left: 20px;"><a href="/content/<%= data[i]._id %>"><%= data[i].title %></a></td>                   
                     <td style=" text-align: center;"><%= data[i].author %></td>
                     <td style=" text-align: center;"><%= data[i].date %></td>
-                    <td style="text-align: center;"><button class="delete btn btn-warning" data-id="<%= data[i]._id %>">삭제</button></td>
+                    <td style="text-align: center;">
+                        <% if (user && user.userid == data[i].author) { %>
+                            <button class="delete btn btn-warning" data-id="<%= data[i]._id %>">삭제</button>
+                        <% } %>
+                    </td>
                 </tr>
             <% } %>
         </tbody>

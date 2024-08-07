@@ -215,7 +215,7 @@ app.get('/search', (req, res) => {
     .find({title : { $regex: req.query.value, $options: 'i' } }).toArray()
     .then((result) => {
       console.log(result);
-      res.render('search.ejs', {data : result});
+      res.render('search.ejs', {data : result, user: req.session.user || false});
       console.log('완료');
     }).catch(err => {
       console.log(err);
@@ -228,7 +228,7 @@ app.get('/myContent', (req, res) => {
     .collection('post')
     .find({author : req.session.user.userid}).toArray()
     .then((result) => {
-      res.render('search.ejs', {data : result});
+      res.render('search.ejs', {data : result, user: req.session.user || false});
       console.log('완료');
     }).catch(err => {
       console.log(err);
