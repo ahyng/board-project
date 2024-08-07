@@ -63,7 +63,7 @@
                     <td style=" text-align: center;"><%= data[i].author %></td>
                     <td style=" text-align: center;"><%= data[i].date %></td>
                     <td style="text-align: center;">
-                        <% if (user.userid == data[i].author) { %>
+                        <% if (user && user.userid == data[i].author) { %>
                             <button class="delete btn btn-warning" data-id="<%= data[i]._id %>">삭제</button>
                         <% } %>
                     </td>
