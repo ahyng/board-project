@@ -60,6 +60,19 @@
             margin-bottom: 30px;
         }
 
+        #messageBox {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+        }
+
+        #messageBox button {
+            position: absolute;
+            bottom: 1px;
+            right: 1px;
+        }
+
     </style>
 </head>
 <body>
@@ -92,8 +105,13 @@
             <div id="coments">
                 <div class="card w-75" style="margin: auto; font-size: 25px; margin-bottom: 20px;">
                     <div class="card-body">
-                    <h5>작성자 : <%= data.comment[i].id %></h5>
-                    <%= data.comment[i].message %>
+                        <h5 style="margin-bottom: 15px;">작성자 : <%= data.comment[i].id %></h5>
+                        <div id="messageBox">
+                            <p style="white-space: pre-wrap; margin-bottom: 5px;"><%= data.comment[i].message %></p>
+                            <% if (data.comment[i].id == user.userid) { %>
+                                <button class="btn" style="font-size: 20px; background-color: #20c997; color: white;">삭제</button>
+                            <% } %>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -104,7 +122,7 @@
             <input style="display: none;" name="postId" value="<%= data._id %>" />
             <input style="display: none;" name="userid" value="<%= user.userid %>" />
             <label for="exampleFormControlTextarea1" class="form-label" style="font-size: 20px;"><%= user.userid %></label>
-            <textarea name="commentMessage" class="form-control" id="exampleFormControlTextarea1" rows="3" style="font-size: 20px;"></textarea>
+            <textarea name="commentMessage" rows="3" cols="20" wrap="hard" class="form-control" style="font-size: 20px;"></textarea>
             <button type="submit" class="btn btn-primary">저장</button>
         </form>
 
