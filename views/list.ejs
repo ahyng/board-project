@@ -70,7 +70,7 @@
         <tbody>
                <% for (let i=0; i < data.length; i++){ %>
                 <tr onclick="location.href='/content/<%= data[i]._id %>'" style="cursor: pointer;">
-                    <td style="padding-left: 20px;"><span style="color: #0d6efd;"><%= data[i].title %></span></td>                   
+                    <td style="padding-left: 20px;"><span style="color: #0d6efd;"><%= data[i].title %><span style="color: gray; font-size: 20px;"> [<%= data[i].comment? data[i].comment.length : 0 %>]</span></td>                   
                     <td style=" text-align: center;"><%= data[i].author %></td>
                     <td style=" text-align: center;"><%= data[i].date %></td>    
                 </tr>
