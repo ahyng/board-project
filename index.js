@@ -146,6 +146,24 @@ app.post('/edit', (req, res) => {
     })
 })
 
+app.post('/comment', (req, res) => {
+  console.log(req.body);
+
+  let userid = req.body.userid;
+  let commentMsg = req.body.commentMessage;
+  req.body.id = new ObjectId(req.body.postId);
+  
+  mydb
+    .collection('post')
+    .updateOne({_id: req.body.id}, {$push : { comment : {id : userid, message : commentMsg} }})
+    .then((result) => {
+      console.log('완료');
+      res.redirect(`/content/${req.body.id}`);
+    }).catch((err) => {
+      console.log(err);
+    })
+})
+
 app.get('/login', (req, res) => {
   console.log(req.session);
   if (req.session.user){

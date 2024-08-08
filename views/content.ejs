@@ -50,6 +50,16 @@
             font-size: 20px;
         }
 
+        #commentTitle {
+            width: 75%;
+            margin: auto;
+        }
+
+        #commentTitle h3 {
+            margin-left: 10px;
+            margin-bottom: 30px;
+        }
+
     </style>
 </head>
 <body>
@@ -72,6 +82,33 @@
                 <button id="backBtn" type="button" onclick="window.history.back()" class="btn" style="background-color: #96a1ad; color: white;">목록으로 이동</button>
             </div>
         </div>
+
+        <div id="commentTitle">
+            <h3>댓글(<%= data.comment? data.comment.length : 0 %>)</h3>
+        </div>
+
+        <% if (data.comment) { %>
+            <% for (let i=0; i < data.comment.length; i++){ %>
+            <div id="coments">
+                <div class="card w-75" style="margin: auto; font-size: 25px; margin-bottom: 20px;">
+                    <div class="card-body">
+                    <h5>작성자 : <%= data.comment[i].id %></h5>
+                    <%= data.comment[i].message %>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        <% } %>
+
+        <form action="/comment" method="post" class="mb-3" style="width: 75%; margin: auto;">
+            <input style="display: none;" name="postId" value="<%= data._id %>" />
+            <input style="display: none;" name="userid" value="<%= user.userid %>" />
+            <label for="exampleFormControlTextarea1" class="form-label" style="font-size: 20px;"><%= user.userid %></label>
+            <textarea name="commentMessage" class="form-control" id="exampleFormControlTextarea1" rows="3" style="font-size: 20px;"></textarea>
+            <button type="submit" class="btn btn-primary">저장</button>
+        </form>
+
+
 
     <% } else { %>
         <%- include('welcome-box.ejs') %>
