@@ -32,24 +32,7 @@
             font-size: 25px;
         }
 
-        #welcomeBox {
-            border: 2px solid rgb(184, 184, 184);
-            width: 30%;
-            margin: 0 auto;
-            margin-top: 10%;
-            padding: 20px;
-            padding-bottom: 10px;
-            /* border-radius: 10px; */
-            background-color: rgb(244, 244, 244);
-        }
-
-        button {
-            font-size: 20px;
-        }
-
-        h5 {
-            margin-top: 10px;
-        }
+        
 
     </style>
 </head>
@@ -58,9 +41,9 @@
 
     <% if (user) { %>
         <div id="dashboard">
-            <button onclick="location.href='/enter'" class="btn btn-warning">글쓰기</button>
-            <button class="myContent btn btn-success">내글보기</button>
-            <button onclick="location.href='/list'" class="btn btn btn-secondary">전체 목록</button>
+            <button onclick="location.href='/enter'" class="btn btn-primary">글쓰기</button>
+            <button class="myContent btn" style="background-color: #20c997; color: white;">내글보기</button>
+            <button onclick="location.href='/list'" class="btn" style="background-color: #96a1ad; color: white;">전체 목록</button>
             <form id="searchBox" class="d-flex" role="search">
                 <input class="form-control me-2 searchBar" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success searchBtn" type="submit">enter</button>
@@ -86,11 +69,7 @@
             </tbody>
         </table>
     <% } else { %>
-        <div id="welcomeBox">
-            <h3>SimpleBoard</h3>
-            <h5>로그인 후 이용해주세요.</h5>
-            <button id="loginBtn" class="btn btn-warning" onclick="location.href='/login'">login</button>
-        </div>
+        <%- include('welcome-box.ejs') %>
     <% } %>
 
 
@@ -106,7 +85,7 @@
         $('.myContent').click((e) => {
             location.href = '/myContent';
         })
-        
+
     </script>
 </body>
 </html>

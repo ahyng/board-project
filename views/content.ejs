@@ -46,23 +46,8 @@
             font-size: 20px;
         }
 
-        #welcomeBox {
-            border: 2px solid rgb(184, 184, 184);
-            width: 30%;
-            margin: 0 auto;
-            margin-top: 10%;
-            padding: 20px;
-            padding-bottom: 10px;
-            /* border-radius: 10px; */
-            background-color: rgb(244, 244, 244);
-        }
-
-        button {
+        #backBtn {
             font-size: 20px;
-        }
-
-        h5 {
-            margin-top: 10px;
         }
 
     </style>
@@ -81,18 +66,15 @@
             <div class="card-footer" id="cardFooter">
                 <div id="savedDate">작성일: <%= data.date %></div>
                 <% if (user.userid == data.author) { %>
-                    <button id="editBtn" type="button" class="btn btn-warning" onclick="location.href='/edit/<%= data._id %>'" >수정하기</button>
-                    <button id="deleteBtn" type="button" class="delete btn btn-outline-danger" data-id="<%= data._id %>">삭제</button> 
+                    <button id="editBtn" type="button" class="btn" style="background-color: #20c997; color: white;" onclick="location.href='/edit/<%= data._id %>'" >수정하기</button>
+                    <button id="deleteBtn" type="button" class="delete btn" style="background-color: #ff3549; color: white;" data-id="<%= data._id %>">삭제</button> 
                 <% } %>
+                <button id="backBtn" type="button" onclick="window.history.back()" class="btn" style="background-color: #96a1ad; color: white;">목록으로 이동</button>
             </div>
         </div>
 
     <% } else { %>
-        <div id="welcomeBox">
-            <h3>SimpleBoard</h3>
-            <h5>로그인 후 이용해주세요.</h5>
-            <button id="loginBtn" class="btn btn-warning" onclick="location.href='/login'">login</button>
-        </div>
+        <%- include('welcome-box.ejs') %>
     <% } %>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script>
@@ -107,6 +89,7 @@
                     data: {_id : sid}
                 }).done((result) => {
                     item.closest('tr').remove();
+                    alert('삭제가 완료되었습니다.');
                     location.href = '/list';
                 }).fail((xhr, textStatus, errorThrown) => {
                     console.log('게시물 삭제 실패');

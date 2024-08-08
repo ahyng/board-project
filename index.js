@@ -49,7 +49,7 @@ app.use(session({
   secret : process.env.SESSION_SECRET,
   resave : false,
   saveUninitialized : true,
-  cookie : { maxAge : 60 * 60 * 12 },
+  cookie : { maxAge : 60 * 60 * 12 * 1000 },
   rolling : true
 }))
 

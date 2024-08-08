@@ -49,25 +49,6 @@
             font-size: 25px;
         }
 
-        #welcomeBox {
-            border: 2px solid rgb(184, 184, 184);
-            width: 30%;
-            margin: auto;
-            margin-top: 10%;
-            padding: 20px;
-            padding-bottom: 10px;
-            /* border-radius: 10px; */
-            background-color: rgb(244, 244, 244);
-        }
-
-        button {
-            font-size: 20px;
-        }
-
-        h5 {
-            margin-top: 10px;
-        }
-
         #loginBtn {
             font-size: 20px;
         }
@@ -98,14 +79,10 @@
                 <label class="form-label">작성일</label>
                 <input readonly type="date" class="form-control" name="someDate" id="inputDate">
             </div>
-            <button type="submit" class="btn btn-warning">저장</button>
+            <button type="submit" class="btn" style="background-color: #20c997; color: white;">저장</button>
         </form>
     <% } else { %>
-        <div id="welcomeBox">
-            <h3>SimpleBoard</h3>
-            <h5>로그인 후 이용해주세요.</h5>
-            <button id="loginBtn" class="btn btn-warning" onclick="location.href='/login'">login</button>
-        </div>
+        <%- include('welcome-box.ejs') %>
     <% } %>
     <script>
         document.getElementById('inputDate').value = new Date().toLocaleDateString('en-CA');

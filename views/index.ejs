@@ -16,7 +16,9 @@
             /* border-radius: 10px; */
         }
 
-        
+        h2 {
+            margin-bottom: 20px;
+        }
 
         #btns button {
             font-size: 20px;
@@ -24,6 +26,7 @@
 
         h5 {
             margin-top: 10px;
+            margin-bottom: 20px;
         }
 
         #btns {
@@ -38,6 +41,18 @@
             font-size: 20px;
         }
 
+        .dropdown-item {
+            font-size: 20px;
+        }
+
+        .account {
+            font-size: 20px;
+        }
+
+        h3 {
+            margin-bottom: 20px;
+        }
+
 
     </style>
 </head>
@@ -46,17 +61,31 @@
     
     <div id="welcomeBox">
         <% if (user) { %>
-            <h2>반갑습니다. <%= user.userid %>님</h2>
-            <div id="btns">
-                <button id="logout" class="btn btn-warning" onclick="location.href='/logout'">logout</button>
-                <button class="btn btn-secondary" onclick="deleteUser()">계정 삭제</button>
-            </div>
+            <h2>SimpleBoard</h2>
+            <h3>반갑습니다. <%= user.userid %>님</h3>
+            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+              
+                <div class="btn-group" role="group">
+                  <button type="button" class="account btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    계정관리
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a style="cursor: pointer;" class="dropdown-item" id="logout" onclick="location.href='/logout'">logout</a></li>
+                    <li><a style="cursor: pointer;" class="dropdown-item" onclick="deleteUser()">계정 삭제</a></li>
+                  </ul>
+                </div>
+              </div>
+            <!-- <div id="btns">
+                
+                <
+            </div> -->
         <% } else { %>
             <h3>SimpleBoard</h3>
             <h5>로그인 후 이용해주세요.</h5>
-            <button id="loginBtn" class="btn btn-warning" onclick="location.href='/login'">login</button>
+            <button id="loginBtn" class="btn btn-primary" onclick="location.href='/login'">login</button>
         <% } %>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
         function deleteUser() {
             let check = confirm('정말 삭제하시겠습니까?');
