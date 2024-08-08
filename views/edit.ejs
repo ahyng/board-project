@@ -49,6 +49,18 @@
             font-size: 25px;
         }
 
+        #btns {
+            display: flex;
+        }
+
+        #btns button[type='submit'] {
+            margin-right: 10px;
+        }
+
+        #btns button[type='button'] {
+            font-size: 20px;
+        }
+
 
     </style>
 </head>
@@ -75,7 +87,10 @@
             <label class="form-label">작성일</label>
             <input type="date" readonly value="<%= data.date %>" class="form-control" name="savedDate">
         </div>
-        <button type="submit" class="btn btn-warning">저장</button>
+        <div id="btns">
+            <button type="submit" class="btn btn-primary">저장</button>
+            <button onclick="window.history.back()" type="button" class="btn btn-secondary">뒤로가기</button>
+        </div>
     </form>
 </body>
 </html>
