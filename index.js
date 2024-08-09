@@ -154,16 +154,37 @@ app.post('/comment', (req, res) => {
   let userid = req.body.userid;
   let commentMsg = req.body.commentMessage;
   req.body.id = new ObjectId(req.body.postId);
-  
+  const newObjectId = new ObjectId();
+
   mydb
     .collection('post')
-    .updateOne({_id: req.body.id}, {$push : { comment : {id : userid, message : commentMsg} }})
+    .updateOne({_id: req.body.id}, {$push : { comment : {_id : newObjectId, userid : userid, message : commentMsg} }})
     .then((result) => {
       console.log('완료');
       res.redirect(`/content/${req.body.id}`);
     }).catch((err) => {
       console.log(err);
     })
+})
+
+app.post('/deleteComment', (req, res) => {
+  console.log(req.body._id);
+  postId = new ObjectId(req.body.postId);
+  commentId = new ObjectId(req.body._id);
+  mydb.collection('post').updateOne(
+    {_id : postId}, 
+    {$pull : { comment : { _id : commentId} }}
+  )
+  .then(result => {
+    console.log('삭제 완료');
+    // res.status(200).json({ redirect: '/list' });
+    res.status(200).send();
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).send();
+  })
+  
 })
 
 app.get('/login', (req, res) => {

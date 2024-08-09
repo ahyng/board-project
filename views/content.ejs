@@ -105,11 +105,11 @@
             <div id="coments">
                 <div class="card w-75" style="margin: auto; font-size: 25px; margin-bottom: 20px;">
                     <div class="card-body">
-                        <h5 style="margin-bottom: 15px;">작성자 : <%= data.comment[i].id %></h5>
+                        <h5 style="margin-bottom: 15px;">작성자 : <%= data.comment[i].userid %></h5>
                         <div id="messageBox">
                             <p style="white-space: pre-wrap; margin-bottom: 5px;"><%= data.comment[i].message %></p>
-                            <% if (data.comment[i].id == user.userid) { %>
-                                <button class="btn" style="font-size: 20px; background-color: #20c997; color: white;">삭제</button>
+                            <% if (data.comment[i].userid == user.userid) { %>
+                                <button class="deleteComment btn" data-id="<%= data.comment[i]._id %>" data-post="<%= data._id %>" style="font-size: 20px; background-color: #20c997; color: white;">삭제</button>
                             <% } %>
                         </div>
                     </div>
@@ -146,6 +146,28 @@
                     item.closest('tr').remove();
                     alert('삭제가 완료되었습니다.');
                     location.href = '/list';
+                }).fail((xhr, textStatus, errorThrown) => {
+                    console.log('게시물 삭제 실패');
+                    console.log(xhr, textStatus, errorThrown);
+                });
+            }  
+        });
+
+        $('.deleteComment').click((e) => {
+            let check = confirm('정말 삭제하시겠습니까?');
+            if (check) {
+                
+                let sid = e.target.dataset.id;
+                let post = e.target.dataset.post;
+                let item = $(e.target);
+                console.log(sid);
+                $.ajax({
+                    type: 'post',
+                    url: '/deleteComment',
+                    data: {_id : sid, postId : post}
+                }).done((result) => {
+                    item.closest('div').remove();
+                    window.location.reload();
                 }).fail((xhr, textStatus, errorThrown) => {
                     console.log('게시물 삭제 실패');
                     console.log(xhr, textStatus, errorThrown);
