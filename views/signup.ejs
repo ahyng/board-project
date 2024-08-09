@@ -12,7 +12,7 @@
 
         form {
             margin: 50px auto;
-            margin-top: 120px;
+            margin-top: 70px;
             width: 40%;
             padding: 80px 80px 80px 80px;
             border: 3px solid rgb(236, 236, 236);
@@ -50,20 +50,53 @@
         <h1>회원가입</h1>
         <div class="mb-3">
             <label for="floatingInput">ID</label>
-            <input required name="userid" type="text" class="form-control" id="floatingInput" style="font-size: 25px;">
+            <input required id="inputId" name="userid" type="text" class="form-control" id="floatingInput" style="font-size: 25px;">
+            <div id="passwordHelpBlock" class="form-text" style="font-size: 20px;">
+                ID는 서비스 내 다양한 활동에 사용되며, 다른 사용자에게 노출됩니다.
+            </div>
+            <button id="idCheck" type="button" class="btn" style="font-size: 20px; background-color: #20c997; color: white;">ID 중복 확인</button>
+            <div id="success" class="alert alert-warning" role="alert" style="display: none; font-size: 20px; margin-top: 10px;">
+                이미 존재하는 ID 입니다.
+            </div>
+            <div id="fail" class="alert alert-primary" role="alert" style="display: none; font-size: 20px; margin-top: 10px;">
+                사용가능한 ID 입니다.
+            </div>
         </div>
         <div class="mb-3">
             <label for="floatingPassword">Password</label>
             <input readonly name="userpwd" type="password" class="form-control" id="floatingPassword" style="font-size: 25px;">
         </div>
         <div class="mb-3">
-            <label for="floatingPassword">닉네임</label>
-            <input name="username" type="text" class="form-control" id="floatingPassword" style="font-size: 25px;">
+            <label for="floatingPassword">email</label>
+            <input name="useremail" type="email" class="form-control" id="floatingPassword" style="font-size: 25px;">
         </div>
         <div id="Btns">
             <button id="signupBtn" type="submit" class="btn btn-primary">완료</button>
             <button type="button" onclick="location.href='/login'" class="btn btn-secondary">로그인 페이지로 이동</button>
         </div>
     </form>
+    <script>
+        document.getElementById('idCheck').addEventListener('click', async function() {
+            const inputId = document.getElementById('inputId').value;
+            console.log('inputid', inputId);
+
+            const response = fetch('/check-id', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ inputId: inputId })
+            });
+
+            const result = await response.json();
+            console.log(result);
+
+            if (result) {
+                document.getElementById('fail').style.display = 'none';
+                document.getElementById('success').style.display = 'block';
+            } else {
+                document.getElementById('success').style.display = 'none';
+                document.getElementById('fail').style.display = 'block';
+            }
+        })
+    </script>
 </body>
 </html>

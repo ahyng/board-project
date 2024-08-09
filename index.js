@@ -7,19 +7,7 @@ require('dotenv').config();
 const session = require('express-session');
 const sha = require('sha256');
 
-mongoclient.connect(url)
-  .then(client => {
-    mydb = client.db('board');
-    // mydb.collection('post').find().toArray().then(result => {
-    //   console.log(result);
-    // })
 
-    app.listen(8080, () => {
-      console.log('port 8080...');
-    });
-  }).catch(err => {
-    console.log(err);
-  })
 
 // var mysql = require('mysql')
 // var conn = mysql.createConnection({
@@ -34,16 +22,30 @@ mongoclient.connect(url)
 
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = 8080;
 const bodyParser = require('body-parser');
 // const db = require('node-mysql/lib/db');
 // const { mongo } = require('mongoose');
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+mongoclient.connect(url)
+  .then(client => {
+    mydb = client.db('board');
+    // mydb.collection('post').find().toArray().then(result => {
+    //   console.log(result);
+    // })
+
+    app.listen(port, () => {
+      console.log('port 8080...');
+    });
+  }).catch(err => {
+    console.log(err);
   })
+
+// app.listen(port, () => {
+//     console.log(`Example app listening on port ${port}`);
+//   })
 
 app.use(session({
   secret : process.env.SESSION_SECRET,
@@ -205,12 +207,25 @@ app.post('/signup', (req, res) => {
     .insertOne({
       userid : req.body.userid,
       userpwd : sha(req.body.userpwd),
-      username : req.body.username,
+      useremail : req.body.useremail,
     })
     .then((result) => {
       console.log('회원가입 성공');
     })
     res.redirect('/');
+})
+
+app.post('/check-id', async (req, res) => {
+  console.log(req.body);
+  const inputId = req.body.inputId;
+  const user = await mydb.collection('account').findOne({ id: inputId });
+
+    if (user) {
+      res.json(1);  
+  } else {
+      res.json(0); 
+  } 
+
 })
 
 app.get('/delete_user', (req, res) => {
