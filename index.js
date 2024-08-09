@@ -223,8 +223,8 @@ app.post('/check-id', (req, res) => {
     .collection('account')
     .findOne({ userid : inputId })
     .then((result) => {
-      console.log('result:', result? 1 : 0);
-      res.json(result? 1 : 0);
+      console.log('result:', result? 0 : 1);
+      res.json(result? 0 : 1);
     })
 
   //   if (user) {

@@ -46,7 +46,7 @@
 </head>
 <body>
     <%- include('menu.html') %>
-    <form action="/signup" method="post">
+    <form id="signupForm" action="/signup" method="post">
         <h1>회원가입</h1>
         <div class="mb-3">
             <label for="floatingInput">ID</label>
@@ -55,10 +55,10 @@
                 ID는 서비스 내 다양한 활동에 사용되며, 다른 사용자에게 노출됩니다.
             </div>
             <button id="idCheck" type="button" class="btn" style="font-size: 20px; background-color: #20c997; color: white;">ID 중복 확인</button>
-            <div id="success" class="alert alert-warning" role="alert" style="display: none; font-size: 20px; margin-top: 10px;">
+            <div id="fail" class="alert alert-warning" role="alert" style="display: none; font-size: 20px; margin-top: 10px;">
                 이미 존재하는 ID 입니다.
             </div>
-            <div id="fail" class="alert alert-primary" role="alert" style="display: none; font-size: 20px; margin-top: 10px;">
+            <div id="success" class="alert alert-primary" role="alert" style="display: none; font-size: 20px; margin-top: 10px;">
                 사용가능한 ID 입니다.
             </div>
             <div id="idBlank" class="alert alert-danger" role="alert" style="display: none; font-size: 20px; margin-top: 10px;">
@@ -79,6 +79,7 @@
         </div>
     </form>
     <script>
+        let idCheckResult = 0;
         document.getElementById('idCheck').addEventListener('click', function() {
             const inputId = document.getElementById('inputId').value;
             if (inputId != "") {
@@ -98,9 +99,12 @@
                     if (result) {
                         document.getElementById('fail').style.display = 'none';
                         document.getElementById('success').style.display = 'block';
+                        idCheckResult = 1;
+                        
                     } else {
                         document.getElementById('success').style.display = 'none';
                         document.getElementById('fail').style.display = 'block';
+                        idCheckResult = 0;
                     }
                 })
             } else {
@@ -111,6 +115,16 @@
             // const result =  response.json();
             // console.log(result);
         })
-    </script
+
+        document.getElementById('signupForm').addEventListener('submit', (e) => {
+            console.log(idCheckResult);
+            if (idCheckResult == 0) {
+                e.preventDefault();
+                alert('ID 중복확인을 진행해 주세요.');
+            } else {
+                alert('회원가입이 완료되었습니다.\n로그인 후 이용해 주세요.') 
+            }
+        })
+    </script>
 </body>
 </html>
