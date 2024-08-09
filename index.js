@@ -215,16 +215,23 @@ app.post('/signup', (req, res) => {
     res.redirect('/');
 })
 
-app.post('/check-id', async (req, res) => {
+app.use(express.json());
+app.post('/check-id', (req, res) => {
   console.log(req.body);
-  const inputId = req.body.inputId;
-  const user = await mydb.collection('account').findOne({ id: inputId });
+  const inputId = req.body.id;
+  mydb
+    .collection('account')
+    .findOne({ userid : inputId })
+    .then((result) => {
+      console.log('result:', result? 1 : 0);
+      res.json(result? 1 : 0);
+    })
 
-    if (user) {
-      res.json(1);  
-  } else {
-      res.json(0); 
-  } 
+  //   if (user) {
+  //     res.json(1);  
+  // } else {
+  //     res.json(0); 
+  // } 
 
 })
 

@@ -61,14 +61,17 @@
             <div id="fail" class="alert alert-primary" role="alert" style="display: none; font-size: 20px; margin-top: 10px;">
                 사용가능한 ID 입니다.
             </div>
+            <div id="idBlank" class="alert alert-danger" role="alert" style="display: none; font-size: 20px; margin-top: 10px;">
+                ID를 입력해 주세요.
+            </div>
         </div>
         <div class="mb-3">
             <label for="floatingPassword">Password</label>
-            <input readonly name="userpwd" type="password" class="form-control" id="floatingPassword" style="font-size: 25px;">
+            <input required name="userpwd" type="password" class="form-control" id="floatingPassword" style="font-size: 25px;">
         </div>
         <div class="mb-3">
             <label for="floatingPassword">email</label>
-            <input name="useremail" type="email" class="form-control" id="floatingPassword" style="font-size: 25px;">
+            <input required name="useremail" type="email" class="form-control" id="floatingPassword" style="font-size: 25px;">
         </div>
         <div id="Btns">
             <button id="signupBtn" type="submit" class="btn btn-primary">완료</button>
@@ -76,27 +79,38 @@
         </div>
     </form>
     <script>
-        document.getElementById('idCheck').addEventListener('click', async function() {
+        document.getElementById('idCheck').addEventListener('click', function() {
             const inputId = document.getElementById('inputId').value;
-            console.log('inputid', inputId);
+            if (inputId != "") {
+                console.log('inputid', inputId);
 
-            const response = fetch('/check-id', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ inputId: inputId })
-            });
-
-            const result = await response.json();
-            console.log(result);
-
-            if (result) {
-                document.getElementById('fail').style.display = 'none';
-                document.getElementById('success').style.display = 'block';
+                fetch('/check-id', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify({ id : inputId }),
+                }).then(response => {
+                    return response.json();
+                    
+                }).then(result => {
+                    console.log(result);
+                    if (result) {
+                        document.getElementById('fail').style.display = 'none';
+                        document.getElementById('success').style.display = 'block';
+                    } else {
+                        document.getElementById('success').style.display = 'none';
+                        document.getElementById('fail').style.display = 'block';
+                    }
+                })
             } else {
                 document.getElementById('success').style.display = 'none';
-                document.getElementById('fail').style.display = 'block';
+                document.getElementById('fail').style.display = 'none';
+                document.getElementById('idBlank').style.display = 'block';
             }
+            // const result =  response.json();
+            // console.log(result);
         })
-    </script>
+    </script
 </body>
 </html>
