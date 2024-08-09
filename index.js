@@ -82,7 +82,7 @@ app.post('/save', (req, res) => {
     // res.redirect('/list');
   })
   // res.send('데이터 추가 성공');
-  res.redirect('/list');
+  res.redirect('/list?isNew=true');
   //mysql
   // let sql = "insert into post (title, content, created) values(?, ?, NOW())";
   // let params = [req.body.title, req.body.content];
@@ -177,8 +177,8 @@ app.post('/deleteComment', (req, res) => {
   )
   .then(result => {
     console.log('삭제 완료');
-    // res.status(200).json({ redirect: '/list' });
-    res.status(200).send();
+    res.status(200).json({ redirect: '/comment' + postId });
+    // res.status(200).send();
   })
   .catch(err => {
     console.log(err);
