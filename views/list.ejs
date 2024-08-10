@@ -21,11 +21,13 @@
             background-color: rgb(227, 227, 227);;
         }
         
-        table {
+        .table {
+            width: 75%;
             font-size: 30px;
             background-color: white;
             margin-top: 40px;
             margin: auto;
+            table-layout: auto;
         }
 
         .delete {
@@ -47,8 +49,53 @@
             font-size: 25px;
         }
 
-        #loginBtn {
-            font-size: 20px;
+        @media (max-width: 768px) {
+            .table {
+                width: 97%;
+                font-size: 20px; 
+                margin-top: 20px;
+            }
+
+            .postDate {
+                font-size: 15px;
+            }
+
+            .delete {
+                font-size: 18px;
+            }
+
+            #dashboard {
+                flex-direction: column; 
+                margin: 5px auto;
+            }
+
+            #writeBtn {
+                display: none;
+            }
+
+            #dashboard button {
+                margin: auto;
+                width: 98%;
+                margin-bottom: 10px; 
+                font-size: 20px; 
+            }
+
+            #searchBox {
+                width: 100%;
+            }
+
+            #searchBox input {
+                flex: 7;
+            }
+
+            #searchBox button {
+                flex: 3;
+            }
+
+            #searchBox input, #searchBox button {
+                font-size: 20px; 
+                height: 45px;
+            }
         }
 
 
@@ -61,15 +108,15 @@
     <% if (user) { %>
 
     <div id="dashboard">
-        <button onclick="location.href='/enter'" class="btn btn-primary">글쓰기</button>
-        <button class="myContent btn" style="background-color: #20c997; color: white;">내글보기</button>
+        <button id="writeBtn" onclick="location.href='/enter'" class="btn btn-primary">글쓰기</button>
+        <button id="myContentBtn" class="myContent btn" style="background-color: #20c997; color: white;">내글보기</button>
         <form id="searchBox" class="d-flex" role="search">
             <input class="form-control me-2 searchBar" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success searchBtn" type="submit">enter</button>
         </form>
     </div>
 
-    <table class="table w-75 p-3 table-hover"> 
+    <table class="table p-3 table-hover"> 
         <thead>
             <tr>
                 <th style="width: 45%; padding-left: 20px;">제목</th>
@@ -78,19 +125,6 @@
             </tr>
         </thead>
         <tbody>
-               <% for (let i=0; i < data.length-1; i++){ %>
-                <tr onclick="location.href='/content/<%= data[i]._id %>'" style="cursor: pointer;">
-                    <td style="padding-left: 20px;">
-                        <span style="color: #0d6efd;"><%= data[i].title %>
-                            <span style="color: gray; font-size: 20px;"> [<%= data[i].comment? data[i].comment.length : 0 %>]
-                            </span>
-                        </span>
-                    </td>                   
-                    
-                    <td style=" text-align: center;"><%= data[i].author %></td>
-                    <td style=" text-align: center;"><%= data[i].date %></td>    
-                </tr>
-            <% } %>
             <tr onclick="location.href='/content/<%= data[data.length-1]._id %>'" style="cursor: pointer;">
                 <td style="padding-left: 20px;">
                     <span style="color: #0d6efd;"><%= data[data.length-1].title %>
@@ -101,8 +135,23 @@
                 </td>                   
                 
                 <td style=" text-align: center;"><%= data[data.length-1].author %></td>
-                <td style=" text-align: center;"><%= data[data.length-1].date %></td>    
+                <td class="postDate" style=" text-align: center;"><%= data[data.length-1].date %></td>    
             </tr>
+
+            <% for (let i=data.length-2; i >= 0; i--){ %>
+                <tr onclick="location.href='/content/<%= data[i]._id %>'" style="cursor: pointer;">
+                    <td style="padding-left: 20px;">
+                        <span style="color: #0d6efd;"><%= data[i].title %>
+                            <span style="color: gray; font-size: 20px;"> [<%= data[i].comment? data[i].comment.length : 0 %>]
+                            </span>
+                        </span>
+                    </td>                   
+                    
+                    <td style=" text-align: center;"><%= data[i].author %></td>
+                    <td class="postDate" style=" text-align: center;"><%= data[i].date %></td>    
+                </tr>
+            <% } %>
+            
         </tbody>
     </table>
 

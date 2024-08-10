@@ -11,13 +11,23 @@
         }
 
         form {
-            margin: 50px auto;
+            margin: 5% auto;
             margin-top: 70px;
             width: 40%;
             padding: 80px 80px 80px 80px;
             border: 3px solid rgb(236, 236, 236);
             /* border-radius: 10px; */
             background-color: rgba(222, 222, 222, 0.847);
+        }
+
+
+        @media (max-width: 768px) {
+            form {
+                margin: 3% auto; 
+                margin-top: 50px;
+                width: 90%; 
+                padding: 40px; 
+            }
         }
 
         label {
@@ -52,7 +62,7 @@
             <label for="floatingInput">ID</label>
             <input required id="inputId" name="userid" type="text" class="form-control" id="floatingInput" style="font-size: 25px;">
             <div id="passwordHelpBlock" class="form-text" style="font-size: 20px;">
-                ID는 서비스 내 다양한 활동에 사용되며, 다른 사용자에게 노출됩니다.
+                ID는 서비스 내 다양한 활동에 사용되며, 다른 사용자에게 노출됩니다.<br>ID는 이후 변경할 수 없음을 알려드립니다.
             </div>
             <button id="idCheck" type="button" class="btn" style="font-size: 20px; background-color: #20c997; color: white;">ID 중복 확인</button>
             <div id="fail" class="alert alert-warning" role="alert" style="display: none; font-size: 20px; margin-top: 10px;">
@@ -97,11 +107,13 @@
                 }).then(result => {
                     console.log(result);
                     if (result) {
+                        document.getElementById('idBlank').style.display = 'none';
                         document.getElementById('fail').style.display = 'none';
                         document.getElementById('success').style.display = 'block';
                         idCheckResult = 1;
                         
                     } else {
+                        document.getElementById('idBlank').style.display = 'none';
                         document.getElementById('success').style.display = 'none';
                         document.getElementById('fail').style.display = 'block';
                         idCheckResult = 0;

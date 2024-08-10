@@ -50,6 +50,11 @@
             font-size: 20px;
         }
 
+        .card {
+            width: 75%;
+            margin: auto; font-size: 25px; margin-bottom: 20px;
+        }
+
         #commentTitle {
             width: 75%;
             margin: auto;
@@ -62,15 +67,123 @@
 
         #messageBox {
             display: flex;
-            flex-direction: column;
             align-items: flex-start;
             position: relative;
         }
 
         #messageBox button {
-            position: absolute;
-            bottom: 1px;
-            right: 1px;
+            flex: 1;
+            font-size: 20px; 
+            background-color: #20c997; 
+            color: white;
+        }
+
+        #messageBox p {
+            width: 70%;
+            flex: 11;
+            white-space: pre-wrap; margin-bottom: 5px;
+        }
+
+        #commentBtn {
+            margin-top: 10px; font-size: 20px;
+        }
+
+        #commentMsg {
+            font-size: 25px;
+        }
+
+        .commitInputBox {
+            width: 75%; margin: auto;
+        }
+
+        @media (max-width: 768px) {
+            #contentBox {
+                width: 97%; 
+                margin: 10px auto; 
+            }
+
+            #contentBox h2 {
+                font-size: 28px; 
+                padding: 10px 10px 10px 5px; 
+            }
+
+            #contentBox div {
+                font-size: 20px; 
+            }
+
+            #content {
+                padding: 10px; 
+                height: 50vh; 
+                max-height: 55vh; 
+                white-space: pre-wrap; /* 자동줄바꿈 + 원래 줄바꿈은 유지 */
+            }
+
+            #cardFooter {
+                padding: 10px; 
+            }
+
+            #savedDate {
+                padding-bottom: 8px; 
+            }
+
+            #editBtn, #deleteBtn, #backBtn {
+                font-size: 18px; 
+            }
+
+            .card {
+                width: 100%;
+            }
+
+            .coments {
+                width: 97%;
+                margin: 10px auto; 
+            }
+
+            #commentTitle {
+                margin-top: 5px;
+                width: 97%; 
+            }
+
+            #commentTitle h3 {
+                margin-bottom: 20px; 
+            }
+
+            #messageBox {
+                display: flex;
+                justify-content: space-between;
+                flex-direction: column;
+            }
+
+            #messageBox button {
+                align-self: flex-end;
+                flex: 1;
+                margin-top: 10px; 
+                font-size: 20px;
+                background-color: #20c997; color: white;
+            }
+            
+            #messageBox p {
+                flex: 9;
+                margin-bottom: 5px;
+                font-size: 20px;
+                white-space: normal;
+            }
+
+            .commentBtn {
+                font-size: 15px;
+                margin-top: 5px;
+            }
+
+            #commentMsg{
+                font-size: 20px;
+                width: 100%;
+                padding: 10px;
+            }
+
+            .commitInputBox {
+                width: 97%;
+            }
+            
         }
 
     </style>
@@ -102,14 +215,14 @@
 
         <% if (data.comment) { %>
             <% for (let i=0; i < data.comment.length; i++){ %>
-            <div id="coments">
-                <div class="card w-75" style="margin: auto; font-size: 25px; margin-bottom: 20px;">
+            <div class="coments">
+                <div class="card">
                     <div class="card-body">
                         <h5 style="margin-bottom: 15px;">작성자 : <%= data.comment[i].userid %></h5>
                         <div id="messageBox">
-                            <p style="white-space: pre-wrap; margin-bottom: 5px;"><%= data.comment[i].message %></p>
+                            <p><%= data.comment[i].message %></p>
                             <% if (data.comment[i].userid == user.userid) { %>
-                                <button class="deleteComment btn" data-id="<%= data.comment[i]._id %>" data-post="<%= data._id %>" style="font-size: 20px; background-color: #20c997; color: white;">삭제</button>
+                                <button id="deleteComment" class="deleteComment btn" data-id="<%= data.comment[i]._id %>" data-post="<%= data._id %>">삭제</button>
                             <% } %>
                         </div>
                     </div>
@@ -118,12 +231,12 @@
             <% } %>
         <% } %>
 
-        <form action="/comment" method="post" class="mb-3" style="width: 75%; margin: auto;">
+        <form action="/comment" method="post" class="commitInputBox mb-3">
             <input style="display: none;" name="postId" value="<%= data._id %>" />
             <input style="display: none;" name="userid" value="<%= user.userid %>" />
             <label for="exampleFormControlTextarea1" class="form-label" style="font-size: 25px;"><%= user.userid %></label>
-            <textarea name="commentMessage" rows="3" cols="20" wrap="hard" class="form-control" style="font-size: 25px;"></textarea>
-            <button type="submit" class="btn btn-primary" style="margin-top: 10px; font-size: 20px;">저장</button>
+            <textarea required id="commentMsg" name="commentMessage" rows="3" cols="20" wrap="hard" class="form-control"></textarea>
+            <button type="submit" class="commentBtn btn btn-primary">저장</button>
         </form>
 
 
