@@ -262,15 +262,20 @@ app.post('/check-id', (req, res) => {
 
 app.get('/delete_user', (req, res) => {
   console.log(req.session);
+  id = req.session.user.userid;
   req.body = req.session.user;
   mydb
     .collection('account')
-    .deleteOne(req.bpdy)
+    .deleteOne({ userid : id })
     .then((result) => {
       req.session.destroy();
       console.log('삭제 완료');
-      res.render('index.ejs', {user : null});
-    }).catch((err) => {
+      return mydb.collection('post').updateMany({author : id}, {$set: {author : '(탈퇴한회원)'}});
+
+    }).then((result) => {
+      res.render('index.ejs', { user: null });
+    })
+    .catch((err) => {
       console.log(err);
     })
 })
