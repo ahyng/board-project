@@ -69,18 +69,18 @@
             display: flex;
             align-items: flex-start;
             position: relative;
+            flex-direction: column;
         }
 
         #messageBox button {
-            flex: 1;
             font-size: 20px; 
             background-color: #20c997; 
             color: white;
+            align-self: flex-end;
         }
 
         #messageBox p {
             width: 70%;
-            flex: 11;
             white-space: pre-wrap; margin-bottom: 5px;
         }
 
@@ -98,8 +98,8 @@
 
         @media (max-width: 768px) {
             #contentBox {
-                width: 97%; 
-                margin: 10px auto; 
+                width: 100%; 
+                margin: 0px auto; 
             }
 
             #contentBox h2 {
