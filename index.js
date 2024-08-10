@@ -55,6 +55,10 @@ app.use(session({
   rolling : true
 }))
 
+app.get('/introduction', (req, res) => {
+  res.render('introduction.ejs');
+})
+
 app.get('/list', (req, res) => {
   // conn.query("select * from post", function(err, rows, fields){
   //   if (err) throw err;
