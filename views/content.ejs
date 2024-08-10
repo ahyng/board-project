@@ -166,7 +166,6 @@
                 flex: 9;
                 margin-bottom: 5px;
                 font-size: 20px;
-                white-space: normal;
             }
 
             .commentBtn {
@@ -178,6 +177,7 @@
                 font-size: 20px;
                 width: 100%;
                 padding: 10px;
+                padding-right: 30px;
             }
 
             .commitInputBox {
@@ -235,7 +235,7 @@
             <input style="display: none;" name="postId" value="<%= data._id %>" />
             <input style="display: none;" name="userid" value="<%= user.userid %>" />
             <label for="exampleFormControlTextarea1" class="form-label" style="font-size: 25px;"><%= user.userid %></label>
-            <textarea required id="commentMsg" name="commentMessage" rows="3" cols="20" wrap="hard" class="form-control"></textarea>
+            <textarea required id="commentMsg" name="commentMessage" rows="3" class="form-control"></textarea>
             <button type="submit" class="commentBtn btn btn-primary">저장</button>
         </form>
 
