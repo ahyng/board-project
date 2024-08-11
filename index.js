@@ -36,6 +36,9 @@ mongoclient.connect(url)
     //   console.log(result);
     // })
 
+    // mydb = mydb.collection('post').find()
+    // .sort({ createdAt: -1 })
+
     app.listen(port, () => {
       console.log('port 8080...');
     });
@@ -60,12 +63,14 @@ app.get('/introduction', (req, res) => {
 })
 
 app.get('/list', (req, res) => {
+
   // conn.query("select * from post", function(err, rows, fields){
   //   if (err) throw err;
   //   res.render('list.ejs', {data : rows});
   // })
-
-  mydb.collection('post').find().toArray().then(result => {
+  let page = req.query.page;
+  mydb.collection('post').find().sort({ _id: -1 }).skip((page-1) * 10).limit(10).toArray()
+  .then(result => {
     // console.log(result);
     res.render('list.ejs', {data : result, user : req.session.user? req.session.user : false});
   })

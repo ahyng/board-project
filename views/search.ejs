@@ -127,10 +127,14 @@
                 </tr>
             </thead>
             <tbody>
-                <% for (let i=0; i < data.length; i++){ %>
+                <% for (let i=data.length-1; i >=0; i--){ %>
                     <tr onclick="location.href='/content/<%= data[i]._id %>'" style="cursor: pointer;">
                         <td style="padding-left: 20px;"><span style="color: #0d6efd;"><%= data[i].title %><span style="color: gray; font-size: 20px;"> [<%= data[i].comment? data[i].comment.length : 0 %>]</span></span></td>                   
-                        <td style=" text-align: center;"><%= data[i].author %></td>
+                        <% if (data[i].author == '(탈퇴한회원)') { %>
+                            <td style="font-size: 28px; text-align: center; color: gray;"><%= data[i].author %></td>
+                        <% } else { %>
+                            <td style="text-align: center;"><%= data[i].author %></td>
+                        <% } %>
                         <td class="postDate" style=" text-align: center;"><%= data[i].date %></td>
                     </tr>
                 <% } %>
