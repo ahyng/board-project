@@ -65,10 +65,23 @@
             <label for="floatingPassword">Password</label>
             <input required name="userpwd" type="password" class="form-control" id="floatingPassword" style="font-size: 25px;">
         </div>
+        <div id="loginFiled" class="alert alert-warning" role="alert" style="display: none; font-size: 20px; margin-top: 10px;">
+            ID와 비밀번호를 다시 한번 확인해 주세요.
+        </div>
         <div id="Btns">
             <button id="loginBtn" type="submit" class="btn btn-primary">완료</button>
             <button type="button" onclick="location.href='/signup'" class="btn btn-secondary">아직 회원이 아니신가요?</button>
         </div>
       </form>
+      <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const loginFailed = urlParams.get('fail');
+
+        if (loginFailed == 'true') {
+            document.getElementById('loginFiled').style.display = 'block';
+        } else {
+            document.getElementById('loginFiled').style.display = 'none';
+        }
+      </script>
 </body>
 </html>

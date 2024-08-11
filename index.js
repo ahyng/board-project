@@ -216,7 +216,7 @@ app.post('/login', (req, res) => {
         res.render('index.ejs', {user : req.session.user});
 
       } else {
-        res.render('login.ejs');
+        res.redirect('/login?fail=true');
       }
     })
 })
