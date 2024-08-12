@@ -63,19 +63,32 @@ app.get('/introduction', (req, res) => {
 })
 
 app.get('/list', (req, res) => {
+  let page = parseInt(req.query.page) || 1;
 
-  // conn.query("select * from post", function(err, rows, fields){
-  //   if (err) throw err;
-  //   res.render('list.ejs', {data : rows});
-  // })
-  let page = req.query.page;
-  mydb.collection('post').find().sort({ _id: -1 }).skip((page-1) * 10).limit(10).toArray()
-  .then(result => {
-    // console.log(result);
-    res.render('list.ejs', {data : result, user : req.session.user? req.session.user : false});
+  // 전체 데이터 수를 계산
+  mydb.collection('post').countDocuments()
+  .then(totalCount => {
+    let totalPages = Math.ceil(totalCount / 10);
+
+    // 요청한 페이지의 데이터를 가져옴
+    mydb.collection('post').find().sort({ _id: -1 })
+      .skip((page - 1) * 10)
+      .limit(10)
+      .toArray()
+      .then(result => {
+        res.render('list.ejs', {
+          data: result,
+          totalPages: totalPages,
+          currentPage: page,
+          user: req.session.user ? req.session.user : false
+        });
+      });
   })
-
-})
+  .catch(err => {
+    console.error(err);
+    res.status(500).send('Server Error');
+  });
+});
 
 app.get('/enter', (req, res) => {
   res.render('enter.ejs', {user : req.session.user? req.session.user : false});
@@ -286,36 +299,77 @@ app.get('/delete_user', (req, res) => {
 })
 
 app.get('/search', (req, res) => {
-  console.log(req.query);
-  mydb
-    .collection('post')
-    .find({title : { $regex: req.query.value, $options: 'i' } }).toArray()
-    .then((result) => {
-      console.log(result);
-      res.render('search.ejs', {data : result, user: req.session.user || false});
+  let page = parseInt(req.query.page) || 1;
+  let itemsPerPage = 10;
+  let totalItems = 0;
 
-      console.log('완료');
-    }).catch(err => {
-      console.log(err);
+  // 검색 조건
+  let searchQuery = { title: { $regex: req.query.value, $options: 'i' } };
+
+  mydb.collection('post')
+    .find(searchQuery)
+    .count() // 전체 검색 결과 수 계산
+    .then((count) => {
+      totalItems = count;
+      return mydb.collection('post')
+        .find(searchQuery)
+        .sort({ _id: -1 })
+        .skip((page - 1) * itemsPerPage)
+        .limit(itemsPerPage)
+        .toArray();
     })
-})
+    .then((result) => {
+      let totalPages = Math.ceil(totalItems / itemsPerPage);
+      res.render('search.ejs', {
+        data: result,
+        user: req.session.user || null,
+        currentPage: page,
+        totalPages: totalPages,
+        searchValue: req.query.value,
+        contentType: 'search' // 콘텐츠 타입 구분
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
 
 app.get('/myContent', (req, res) => {
-  console.log(req.session.user);
+  let page = parseInt(req.query.page) || 1;
+  let itemsPerPage = 10;
+  let totalItems = 0;
+
   if (req.session.user) {
-    mydb
-    .collection('post')
-    .find({author : req.session.user.userid}).toArray()
-    .then((result) => {
-      res.render('search.ejs', {data : result, user: req.session.user || null});
-      console.log('완료');
-    }).catch(err => {
-      console.log(err);
-    })
+    mydb.collection('post')
+      .find({ author: req.session.user.userid })
+      .count() // 전체 콘텐츠 수 계산
+      .then((count) => {
+        totalItems = count;
+        return mydb.collection('post')
+          .find({ author: req.session.user.userid })
+          .sort({ _id: -1 })
+          .skip((page - 1) * itemsPerPage)
+          .limit(itemsPerPage)
+          .toArray();
+      })
+      .then((result) => {
+        let totalPages = Math.ceil(totalItems / itemsPerPage);
+        res.render('search.ejs', {
+          data: result,
+          user: req.session.user || null,
+          currentPage: page,
+          totalPages: totalPages,
+          searchValue: null, // 검색어 없음
+          contentType: 'myContent' // 콘텐츠 타입 구분
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   } else {
-    res.render('search.ejs', {user: null});
+    res.render('search.ejs', { user: null, contentType: 'myContent' });
   }
-})
+});
 
 app.get('/', (req, res) => {
   console.log(req.session);

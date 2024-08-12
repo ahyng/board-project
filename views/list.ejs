@@ -47,10 +47,9 @@
         .pagination {
             display: flex;
             justify-content: center;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
+            margin-top: 30px;
         }
-
-
 
         @media (max-width: 768px) {
             .table {
@@ -168,21 +167,48 @@
 
     <nav id="pageBtns" class="mb-3" aria-label="Page navigation example">
         <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
+      
+          <!-- 이전 버튼 -->
+          <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+            <a class="page-link" href="<%= currentPage > 1 ? '/list?page=' + (currentPage - 1) : '#' %>" aria-label="Previous">
               <span aria-hidden="true">&laquo;</span>
             </a>
           </li>
-          <li class="page-item"><a class="page-link" href="/list?page=1">1</a></li>
-          <li class="page-item"><a class="page-link" href="/list?page=2">2</a></li>
-          <li class="page-item"><a class="page-link" href="/list?page=3">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
+      
+          <!-- 동적으로 표시할 페이지 번호 -->
+          <% 
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, currentPage + 2);
+
+            if (currentPage <= 3) {
+              startPage = 1;
+              endPage = Math.min(5, totalPages);
+            }
+            
+            if (currentPage > totalPages - 3) {
+              startPage = Math.max(1, totalPages - 4);
+              endPage = totalPages;
+            }
+          %>
+
+          <% for(let i = startPage; i <= endPage; i++) { %>
+            
+            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+              <a class="page-link" href="/list?page=<%= i %>"><%= i %></a>
+            </li>
+          <% } %>
+          
+          <!-- 다음 버튼 -->
+          <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+            <a class="page-link" href="<%= currentPage < totalPages ? '/list?page=' + (currentPage + 1) : '#' %>" aria-label="Next">
               <span aria-hidden="true">&raquo;</span>
             </a>
           </li>
+          
         </ul>
       </nav>
+      
+      
     
     <% } else { %>
         <%- include('welcome-box.ejs') %>
@@ -209,6 +235,8 @@
         if (isNew == 'true') {
             document.getElementById('isNew').innerText = 'new!';
         }
+
+        
         
     </script>
 </body>
