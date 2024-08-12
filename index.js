@@ -288,7 +288,7 @@ app.get('/delete_user', (req, res) => {
     .then((result) => {
       req.session.destroy();
       console.log('삭제 완료');
-      return mydb.collection('post').updateMany({author : id}, {$set: {author : '(탈퇴한회원)'}});
+      return mydb.collection('post').updateMany({author : id}, {$set: {author : '(탈퇴한 회원)'}});
 
     }).then((result) => {
       res.render('index.ejs', { user: null });
