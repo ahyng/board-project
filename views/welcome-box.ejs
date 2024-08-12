@@ -1,0 +1,53 @@
+<style>
+    #welcomeBox {
+            border: 2px solid rgb(184, 184, 184);
+            width: 30%;
+            margin: 0 auto;
+            margin-top: 10%;
+            padding: 20px;
+            padding-bottom: 10px;
+            /* border-radius: 10px; */
+            background-color: rgb(244, 244, 244);
+        }
+
+        #welcomeBox button {
+            font-size: 20px;
+        }
+
+        #welcomeBox h5 {
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        #welcomeBox h3 {
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            #welcomeBox {
+                width: 90%; 
+                margin-top: 5%; 
+                padding: 15px; 
+            
+            }
+
+            #welcomeBox button {
+                font-size: 18px;
+            }
+
+            #welcomeBox h5 {
+                margin-top: 5px;
+                margin-bottom: 15px;
+            }
+
+            #welcomeBox h3 {
+                margin-bottom: 15px; 
+            }
+        }
+</style>
+
+<div id="welcomeBox">
+    <h3>SimpleBoard</h3>
+    <h5>로그인 후 이용해주세요.</h5>
+    <button id="loginBtn" class="btn btn-primary" onclick="location.href='/login'">login</button>
+</div>
