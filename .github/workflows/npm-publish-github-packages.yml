@@ -34,3 +34,5 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          SESSION_SECRET: ${{secrets.SESSION_SECRET}}
+          MONGO_URI: ${{secrets.MONGO_URI}}
