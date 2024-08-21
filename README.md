@@ -3,9 +3,13 @@
 
 #### 기술 스택
 Node.js
+
 Express.js
+
 MongoDB
+
 EJS
+
 HTML / CSS
 
 #### 기능
@@ -17,7 +21,9 @@ HTML / CSS
 
 #### 설치 및 실행
 설치
+
 ``` npm install @ahyng/board-project@1.0.0 ```
 
 실행
+
 ``` npm run start ```
