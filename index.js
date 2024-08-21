@@ -24,10 +24,18 @@ const express = require('express');
 const app = express();
 const port = 8080;
 const bodyParser = require('body-parser');
+const path = require('path');
 // const db = require('node-mysql/lib/db');
 // const { mongo } = require('mongoose');
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
+var favicon = require('serve-favicon'); 
+// 파비콘 설정
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
+// 정적 파일 서빙
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 mongoclient.connect(url)
   .then(client => {
