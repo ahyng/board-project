@@ -2,15 +2,11 @@
 사용자가 글을 작성하고, 다른 사용자와 공유할 수 있는 게시판 웹 어플리케이션입니다.
 
 #### 기술 스택
-Node.js
-
-Express.js
-
-MongoDB
-
-EJS
-
-HTML / CSS
++ Node.js
++ Express.js
++ MongoDB
++ EJS
++ HTML / CSS
 
 #### 기능
 1. 로그인 / 회원가입
