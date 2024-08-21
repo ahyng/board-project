@@ -1,9 +1,10 @@
-const config = require("./config/key.js");
 const mongoclient = require('mongodb').MongoClient;
 const { ObjectId } = require('mongodb')
-const url = config.mongoURI
+
 let mydb;
 require('dotenv').config();
+const url = process.env.MONGO_URI
+
 const session = require('express-session');
 const sha = require('sha256');
 
@@ -29,9 +30,6 @@ const path = require('path');
 // const { mongo } = require('mongoose');
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
-var favicon = require('serve-favicon'); 
-// 파비콘 설정
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 // 정적 파일 서빙
 app.use(express.static(path.join(__dirname, 'public')));
