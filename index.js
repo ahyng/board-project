@@ -1,9 +1,10 @@
-const config = require("./config/key.js");
 const mongoclient = require('mongodb').MongoClient;
 const { ObjectId } = require('mongodb')
-const url = config.mongoURI
+
 let mydb;
 require('dotenv').config();
+const url = process.env.MONGO_URI
+
 const session = require('express-session');
 const sha = require('sha256');
 
@@ -24,10 +25,15 @@ const express = require('express');
 const app = express();
 const port = 8080;
 const bodyParser = require('body-parser');
+const path = require('path');
 // const db = require('node-mysql/lib/db');
 // const { mongo } = require('mongoose');
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
+
+// 정적 파일 서빙
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 mongoclient.connect(url)
   .then(client => {
@@ -90,8 +96,8 @@ app.get('/list', (req, res) => {
   });
 });
 
-app.get('/enter', (req, res) => {
-  res.render('enter.ejs', {user : req.session.user? req.session.user : false});
+app.get('/write', (req, res) => {
+  res.render('write.ejs', {user : req.session.user? req.session.user : false});
 })
 
 app.post('/save', (req, res) => {
@@ -288,7 +294,7 @@ app.get('/delete_user', (req, res) => {
     .then((result) => {
       req.session.destroy();
       console.log('삭제 완료');
-      return mydb.collection('post').updateMany({author : id}, {$set: {author : '(탈퇴한회원)'}});
+      return mydb.collection('post').updateMany({author : id}, {$set: {author : '(탈퇴한 회원)'}});
 
     }).then((result) => {
       res.render('index.ejs', { user: null });
