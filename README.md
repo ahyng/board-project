@@ -22,6 +22,9 @@
 ***
 
 ### 실행
+```
+git clone https://github.com/ahyng/board-project.git
+```
 
 ``` 
 npm run start 
